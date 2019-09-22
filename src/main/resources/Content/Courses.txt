@@ -1,0 +1,12 @@
+CPSC231;Computing;231;Intro to Computing I;NONE;NONE;fdsafdsaNEWLINENEWLINEfsdafdsafsdfsda
+CPSC233;Computing;233;Intro to Computing II;CPSC231;NONE;NONE
+CPSC235;Computing;233;Advanced Intro to Computing;CPSC231;NONE;dfsafds
+HTST200;History;200;Events and Ideas that Shook the World;NONE;NONE;This is a descriptionNEWLINENEWLINEtest
+HTST201;History;201;The History of Europe;NONE;NONE;This is a descfdsafdsasfdsadfsdafdsafdsafdsafdsafdsafdsafdsafsdafdsafsddsfsafdsafsdafdsafsdafdsafdsafdsafdriptionNEWLINENEWLINEtest
+HTST202;History;202;An Introduction to Military History;NONE;NONE;NONE
+HTST203;History;203;The World to 1500;NONE;NONE;NONE
+HTST204;History;204;The World, 1500-1800;NONE;NONE;NONE
+HTST209;History;209;The History of China;NONE;NONE;NONE
+HTST211;History;211;Canada: Origins to 1867;NONE;NONE;NONE
+HTST213;History;213;Canada Since 1867;NONE;NONE;NONE
+HTST300;History;300;The Practice of History;HTST200;NONE;Provides a grounding in the methods and practice of history.
