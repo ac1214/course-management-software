@@ -1,4 +1,4 @@
-package coursesoftware;
+package coursesoftware.datatypes;
 
 public class Program {
 	private String progID;

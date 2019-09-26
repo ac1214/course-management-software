@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af94e63c-5cca-4869-8c45-e7268a19f73b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/datatypes/Department.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/Course.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/Department.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/Program.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +32,11 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="coursesoftware.datatypes" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -46,7 +55,7 @@
       <module name="course-management-software" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="coursesoftware.*" />
+          <option name="PATTERN" value="coursesoftware.Course" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -78,7 +87,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
