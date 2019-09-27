@@ -1,6 +1,6 @@
 package coursesoftware;
 
-public class CourseOLD {
+public class Course {
 	private String courseID;
 	private String courseDep;
 	private String courseNum;

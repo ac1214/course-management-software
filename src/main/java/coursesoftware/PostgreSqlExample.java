@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
- 
+
 public class PostgreSqlExample {
     public static void main(String[] args) {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "docker", "docker")) {
@@ -18,7 +18,7 @@ public class PostgreSqlExample {
             System.out.println("Connected to PostgreSQL database!");
             Statement statement = connection.createStatement();
             System.out.println("Reading car records...");
-            ResultSet resultSet = statement.executeQuery("CREATE DATABASE testing;");
+            ResultSet resultSet = statement.executeQuery("CREATE DATABASE STUDENTS;");
 
         } /*catch (ClassNotFoundException e) {
             System.out.println("PostgreSQL JDBC driver not found.");
