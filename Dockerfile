@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y wget gnupg &&\
     apt-get update
 
 # Install PostgreSQL
-RUN apt-get install -y software-properties-common postgresql-11
+RUN apt-get install -y software-properties-common postgresql-11 postgresql-client-11 postgresql-contrib-9.6
 
  
 USER postgres
