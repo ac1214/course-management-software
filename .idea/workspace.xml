@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af94e63c-5cca-4869-8c45-e7268a19f73b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/database/DatabaseHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/datatypes/Admin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/validation/Password.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/AddUserWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/AddUserWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/ChangePWWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/ChangePWWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/EditAdminWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/EditAdminWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/LoginWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/LoginWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/PostgreSqlExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/PostgreSqlExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/database/DataModify.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/coursesoftware/database/DataModify.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/coursesoftware/PostgreSqlExample.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
