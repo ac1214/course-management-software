@@ -2,9 +2,6 @@ package coursesoftware;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -19,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import coursesoftware.database.DataModify;
 
 public class LoginWindow extends BaseWindow {
 	TextField uNameField;
@@ -133,100 +131,14 @@ public class LoginWindow extends BaseWindow {
 				ConsoleWindow consoleWindow = new ConsoleWindow();
 				openWindow(consoleWindow, loginBtn);
 			}
-		}
-
-		else {
+		} else {
 			System.out.println("Failed to verify user");
 			popupInvalidWarning();
 		}
 	}
 
 	/**
-	 * This function is from https://www.baeldung.com/sha-256-hashing-java
-	 * 
-	 * @param arr Array of bytes that contain the hash
-	 * @return String value of the hashed password
-	 */
-	private static String bytesToHex(byte[] arr) {
-		StringBuffer hexString = new StringBuffer();
-		for (int i = 0; i < arr.length; i++) {
-			String hex = Integer.toHexString(0xff & arr[i]);
-			if (hex.length() == 1)
-				hexString.append('0');
-			hexString.append(hex);
-		}
-		return hexString.toString();
-	}
-
-	/**
-	 * This method will verify is the username and corresponding hashed password
-	 * exist in the database
-	 * 
-	 * @param username The username that was inputed
-	 * @param pwHash   The hashed value of the password
-	 * @return True if the user exists and the correct password was inputed, false
-	 *         if the user doesn't exist or the wrong password was inputed.
-	 */
-	private boolean checkInAdminDatabase(String username, String pwHash) {
-		if (username.length() == 0) {
-			return false;
-		}
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(ADMINFILE)));
-			// Parse admin file data to check if entered username and password is valid
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] usernameAndHash = line.split(";");
-				if (usernameAndHash[0].equals(username)) {
-					if (usernameAndHash[1].equals(pwHash)) {
-						br.close();
-						return true;
-					} else {
-						br.close();
-						return false;
-					}
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	private boolean checkInStudentDatabase(String username, String pwHash) {
-		if (username.length() == 0) {
-			return false;
-		}
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(STUDENTFILE)));
-			// Parse student file data to check if entered username and password is valid
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] usernameAndHash = line.split(";");
-				if (usernameAndHash[0].equals(username)) {
-					if (usernameAndHash[1].equals(pwHash)) {
-						br.close();
-						return true;
-					} else {
-						br.close();
-						return false;
-					}
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	/**
-	 * This method will popup a warning stating that the inputed username or
+	 * This method will popup a warning stating that the input username or
 	 * password is invalid
 	 */
 	private void popupInvalidWarning() {
@@ -248,20 +160,12 @@ public class LoginWindow extends BaseWindow {
 	 * @return Boolean value of whether the user was successfully validated
 	 */
 	public boolean verifyUser(String username, String password) {
-		MessageDigest md;
+		int result = DataModify.validateUser(username, password);
 
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return false;
-		}
-		byte[] hashBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-		String pwHash = bytesToHex(hashBytes);
-
-		if (checkInAdminDatabase(username, pwHash)) {
+		if(result == 1) {
+			studentflag = false;
 			return true;
-		} else if (checkInStudentDatabase(username, pwHash)) {
+		} else if(result == 2) {
 			studentflag = true;
 			return true;
 		} else {

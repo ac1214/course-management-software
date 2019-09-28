@@ -1,9 +1,7 @@
 package coursesoftware;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Optional;
-import javafx.collections.FXCollections;
+import coursesoftware.database.DataModify;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import coursesoftware.datatypes.Admin;
 
 public class EditAdminWindow extends BaseWindow {
 	private Button finishBtn = new Button("Finish");
@@ -50,21 +49,7 @@ public class EditAdminWindow extends BaseWindow {
 		admins.setMinWidth(405);
 		adminTable.getColumns().add(admins);
 
-		ObservableList<Admin> list = FXCollections.observableArrayList();
-
-		try {
-			System.out.println("File open");
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(ADMINFILE)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				System.out.println(line.split(";")[0]);
-				list.add(new Admin(line.split(";")[0]));
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+		ObservableList<Admin> list = DataModify.getAdminUsers();
 
 		adminTable.setItems(list);
 	}
@@ -175,31 +160,7 @@ public class EditAdminWindow extends BaseWindow {
 	 * @param username Username of the user to be removed
 	 */
 	private void removeUser(String username) {
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(ADMINFILE)));
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-			while ((line = br.readLine()) != null) {
-				if (!(line.split(";")[0]).equals(username)) {
-					addToFile.add(line + "\n");
-				}
-			}
-			br.close();
-			fw = new FileWriter(ADMINFILE);
-			bw = new BufferedWriter(fw);
-			System.out.println(addToFile.size());
-
-			for (String s : addToFile) {
-				System.out.println(s);
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			System.out.println(e);
-			// File not found
-		}
+		DataModify.removeUser(username);
 
 		initTable();
 	}
