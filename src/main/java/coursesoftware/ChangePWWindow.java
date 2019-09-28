@@ -9,6 +9,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Optional;
+
+import coursesoftware.database.DataModify;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -18,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+
+import javax.xml.crypto.Data;
 
 public class ChangePWWindow extends BaseWindow {
 	String username;
@@ -88,9 +92,16 @@ public class ChangePWWindow extends BaseWindow {
 
 					alert.showAndWait();
 				} else {
-					if (verifyUser(oldPWField.getText())) {
-						changePassword(pwField.getText());
-						openWindow(new EditAdminWindow(), finishBtn);
+					if (DataModify.validateUser(username, oldPWField.getText()) == 1) {
+						if(pwField.getText().length() >= 5) {
+							changePassword(pwField.getText());
+							openWindow(new EditAdminWindow(), finishBtn);
+						} else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Password is too short");
+							alert.setHeaderText("The new password you have entered\nis too short, please choose a password \nlonger than 5 characters");
+							alert.showAndWait();
+						}
 					} else {
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Double check old password");
@@ -110,121 +121,6 @@ public class ChangePWWindow extends BaseWindow {
 	 * @param newPassword This is the new password to set the users password to
 	 */
 	private void changePassword(String newPassword) {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(ADMINFILE)));
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-
-			while ((line = br.readLine()) != null) {
-				String[] user = line.split(";");
-				if (user[0].equals(username)) {
-					MessageDigest md = null;
-
-					try {
-						md = MessageDigest.getInstance("SHA-256");
-					} catch (NoSuchAlgorithmException e) {
-						e.printStackTrace();
-					}
-					byte[] hashBytes = md.digest(newPassword.getBytes(StandardCharsets.UTF_8));
-					String pwHash = bytesToHex(hashBytes);
-					addToFile.add(user[0] + ";" + pwHash + "\n");
-				} else {
-					addToFile.add(user[0] + ";" + user[1] + "\n");
-				}
-			}
-			br.close();
-
-			BufferedWriter bw = new BufferedWriter(new FileWriter(ADMINFILE));
-
-			for (String s : addToFile) {
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// File not found
-		}
-	}
-
-	/**
-	 * This method will verify is the username and password input are a valid
-	 * combination
-	 * 
-	 * @param username the username that the user has input
-	 * @param password the password that the user has input
-	 * @return Boolean value of whether the user was successfully validated
-	 */
-	public boolean verifyUser(String password) {
-		MessageDigest md;
-
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return false;
-		}
-		byte[] hashBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-		String pwHash = bytesToHex(hashBytes);
-
-		if (checkInDatabase(username, pwHash)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * This method will verify is the username and corresponding hashed password
-	 * exist in the database
-	 * 
-	 * @param username The username that was inputed
-	 * @param pwHash   The hashed value of the password
-	 * @return True if the user exists and the correct password was inputed, false
-	 *         if the user doesn't exist or the wrong password was inputed.
-	 */
-	private boolean checkInDatabase(String username, String pwHash) {
-		if (username.length() == 0) {
-			return false;
-		}
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(ADMINFILE)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] usernameAndHash = line.split(";");
-				if (usernameAndHash[0].equals(username)) {
-					if (usernameAndHash[1].equals(pwHash)) {
-						br.close();
-						return true;
-					} else {
-						br.close();
-						return false;
-					}
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	/**
-	 * This function is from https://www.baeldung.com/sha-256-hashing-java
-	 * 
-	 * @param arr Array of bytes that contain the hash
-	 * @return String value of the hashed password
-	 */
-	private String bytesToHex(byte[] arr) {
-		StringBuffer hexString = new StringBuffer();
-		for (int i = 0; i < arr.length; i++) {
-			String hex = Integer.toHexString(0xff & arr[i]);
-			if (hex.length() == 1)
-				hexString.append('0');
-			hexString.append(hex);
-		}
-		return hexString.toString();
+		DataModify.changePassword(username, newPassword);
 	}
 }
