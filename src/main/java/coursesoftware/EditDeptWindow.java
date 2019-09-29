@@ -1,9 +1,7 @@
 package coursesoftware;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Optional;
-import javafx.collections.FXCollections;
+import coursesoftware.database.DataModify;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +15,9 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import coursesoftware.datatypes.Program;
+
+import javax.xml.crypto.Data;
 
 public class EditDeptWindow extends BaseWindow {
 	Button finishBtn = new Button("Finish");
@@ -80,19 +81,7 @@ public class EditDeptWindow extends BaseWindow {
 		column.setMinWidth(405);
 		currentDepartmentTable.getColumns().add(column);
 
-		ObservableList<Program> list = FXCollections.observableArrayList();
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTDIR+ thisDept + ".txt")));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				Program progObj = new Program(line);
-				list.add(progObj);
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+		ObservableList<Program> list = DataModify.getPrograms();
 
 		currentDepartmentTable.setItems(list);
 	}
@@ -141,18 +130,7 @@ public class EditDeptWindow extends BaseWindow {
 	}
 
 	private void addProgToFile(String programName) {
-
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(DEPARTMENTDIR + thisDept + ".txt", true));
-			BufferedWriter bw2 = new BufferedWriter(new FileWriter(PROGRAMLIST, true));
-
-			bw.write(programName + "\n");
-			bw2.write(programName + "\n");
-			bw.close();
-			bw2.close();
-		} catch (IOException e) {
-			System.out.println("File can not be opened");
-		}
+		DataModify.insertNewProgram(programName, thisDept);
 
 		initTable();
 	}
@@ -165,27 +143,7 @@ public class EditDeptWindow extends BaseWindow {
 	 *                    the file
 	 */
 	private void validateProg(String newProgName) {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMLIST)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (line.equals(newProgName)) {
-					br.close();
-					// Display error message
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Could not add program");
-					alert.setHeaderText("Make sure that the program name is unique");
-					alert.setContentText("Please enter program name and try again");
-
-					alert.showAndWait();
-					return;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+		DataModify.checkProgramExists(newProgName);
 		addProgToFile(newProgName);
 	}
 
@@ -217,72 +175,13 @@ public class EditDeptWindow extends BaseWindow {
 	}
 
 	/**
-	 * This method will remove a specified program from the program file
-	 * 
-	 * @param progID The id of the program that is to be removed
-	 */
-	private void removeFromProgFile(String progID) {
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMLIST)));
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-			while ((line = br.readLine()) != null) {
-				if (!line.equals(progID)) {
-					addToFile.add(line + "\n");
-				}
-			}
-			br.close();
-			fw = new FileWriter(PROGRAMLIST);
-			bw = new BufferedWriter(fw);
-			System.out.println(addToFile.size());
-
-			for (String s : addToFile) {
-				System.out.println(s);
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			System.out.println(e);
-			// File not found
-		}
-
-		initTable();
-	}
-
-	/**
 	 * This method will remove a program with a specified name
 	 * 
 	 * @param progID The name of the program that should be removed
 	 */
 	private void removeProg(String progID) {
-		removeFromProgFile(progID);
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTDIR + thisDept + ".txt")));
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-
-			while ((line = br.readLine()) != null) {
-				if (!line.equals(progID)) {
-					addToFile.add(line + "\n");
-				}
-			}
-			br.close();
-
-			BufferedWriter bw = new BufferedWriter(new FileWriter(DEPARTMENTDIR + thisDept + ".txt"));
-
-			for (String s : addToFile) {
-				System.out.println(s);
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// File not found
-		}
-
+		//removeFromProgFile(progID);
+		DataModify.removeProgram(progID);
 		initTable();
 	}
 }

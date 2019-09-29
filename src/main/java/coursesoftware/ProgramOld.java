@@ -1,6 +1,6 @@
 package coursesoftware;
 
-public class Program {
+public class ProgramOld {
 	private String progID;
 
 	/**
@@ -9,7 +9,7 @@ public class Program {
 	 * 
 	 * @param programName name of program
 	 */
-	public Program(String programName) {
+	public ProgramOld(String programName) {
 		this.progID = programName;
 	}
 
