@@ -1,15 +1,15 @@
 package coursesoftware;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.Arrays;
+
+import coursesoftware.database.DataModify;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import coursesoftware.datatypes.Course;
 
 public class ViewCourseWindow extends BaseCourseWindow {
 	private Button finishBtn = new Button("Finish");
@@ -58,28 +58,16 @@ public class ViewCourseWindow extends BaseCourseWindow {
 	 */
 	public void setFields() {
 		Course editingCourse = null;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(COURSESFILE)));
 
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] course = line.split(";");
-				if (course[0].equals(courseID)) {
-					editingCourse = new Course(course);
-					String courseDescString = String.join("\n", Arrays.asList(course[6].split("NEWLINE")));
-					courseDescString = courseDescString.equals("NONE") ? "" : courseDescString;
+		editingCourse = DataModify.getCourse(courseID);
+		String courseDescString = String.join("\n", Arrays.asList(editingCourse.getDescription().split("NEWLINE")));
+		courseDescString = courseDescString.equals("NONE") ? "" : courseDescString;
+		courseDesc.setText(courseDescString);
+		courseDesc.setWrapText(true);
+		courseDesc.setDisable(true);
+		courseDesc.setStyle("-fx-opacity: 1.0; -fx-text-inner-color: black;");
 
-					courseDesc.setText(courseDescString);
-					courseDesc.setWrapText(true);
-					courseDesc.setDisable(true);
-					courseDesc.setStyle("-fx-opacity: 1.0; -fx-text-inner-color: black;");
-					break;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+
 		courseIDNameLabel.setText(editingCourse.getCourseID());
 		departmentNameLabel.setText(editingCourse.getCourseDep());
 		courseNumNameLabel.setText(editingCourse.getCourseNum());

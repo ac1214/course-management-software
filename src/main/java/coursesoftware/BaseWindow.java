@@ -9,14 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public abstract class BaseWindow extends Application {
-	// Define filenames containing information for program
-	protected final String BASEDIRECTORY = "/Content/";
-	protected final String DEPARTMENTLIST = BASEDIRECTORY + "departmentList.txt";
-	protected final String COURSESFILE = BASEDIRECTORY + "Courses.txt";
-	protected final String PROGRAMLIST = BASEDIRECTORY + "programList.txt";
-	protected final String DEPARTMENTDIR = BASEDIRECTORY + "/Departments/";
-	protected final String PROGRAMDIR = BASEDIRECTORY + "/Programs/";
-
 	protected String windowTitle;
 	protected int windowWidth;
 	protected int windowHeight;

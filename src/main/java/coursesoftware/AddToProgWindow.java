@@ -1,8 +1,7 @@
 package coursesoftware;
 
-import java.io.*;
 import java.util.Optional;
-import javafx.collections.FXCollections;
+import coursesoftware.database.DataModify;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -53,27 +52,7 @@ public class AddToProgWindow extends BaseWindow {
 	 * Initializes the table for adding courses to programs
 	 */
 	private void initTable() {
-		ObservableList<String> list = FXCollections.observableArrayList();
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(COURSESFILE)));
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] course = line.split(";");
-				list.add(course[0]);
-			}
-			br.close();
-
-			br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMDIR + thisProg + ".txt")));
-
-			while ((line = br.readLine()) != null) {
-				list.remove(line);
-			}
-
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
-
+		ObservableList<String> list = DataModify.getProgramCourses(thisProg);
 		courseListView.setItems(list);
 
 		courseListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -111,17 +90,16 @@ public class AddToProgWindow extends BaseWindow {
 	 */
 	private void addCoursesToFile() {
 		ObservableList<String> list = courseListView.getSelectionModel().getSelectedItems();
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(PROGRAMDIR + thisProg + ".txt", true));
+		StringBuilder sb = new StringBuilder();
 
-			for (String courseID : list) {
-				bw.write(courseID + "\n");
-			}
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("File can not be opened");
+		for(int i = 0; i < list.size() - 1; i++) {
+			sb.append(list.get(i));
+			sb.append(',');
 		}
+
+		sb.append(list.get(list.size() - 1));
+
+		DataModify.updateProgram(thisProg, sb.toString());
 
 		initTable();
 	}

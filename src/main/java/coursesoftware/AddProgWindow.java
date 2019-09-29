@@ -1,9 +1,8 @@
 package coursesoftware;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Optional;
+
+import coursesoftware.database.DataModify;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -78,13 +77,6 @@ public class AddProgWindow extends BaseWindow {
 	 */
 	private void addProgram() {
 		String progID = progField.getText();
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(PROGRAMLIST, true));
-
-			bw.write(progID + "\n");
-			bw.close();
-		} catch (IOException e) {
-			System.out.println("File can not be opened");
-		}
+		DataModify.insertNewProgram(progID, "");
 	}
 }

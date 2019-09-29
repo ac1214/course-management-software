@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import coursesoftware.database.DataModify;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -51,27 +52,13 @@ public class AddCourseWindow extends BaseCourseWindow {
 	}
 
 	/**
-	 * Method parses departments from the department list file and returns them
+	 * Method parses departments from the database and returns them
 	 * 
 	 * @return arrayList<String> Returns an array list of strings of departments
 	 *         form the department list.
 	 */
 	private ArrayList<String> getDepartments() {
-		ArrayList<String> departments = new ArrayList<>();
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTLIST)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				departments.add(line);
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
-
-		return departments;
+		return DataModify.getDepartmentNameList();
 	}
 
 	/**
@@ -133,19 +120,8 @@ public class AddCourseWindow extends BaseCourseWindow {
 	 */
 	private void writeCourse(String courseID, String department, String courseNum, String courseName,
 			String prerequisites, String antirequisites, String courseDescString) {
-		prerequisites = prerequisites.equals("") ? "NONE" : prerequisites;
-		antirequisites = antirequisites.equals("") ? "NONE" : antirequisites;
-		courseDescString = courseDescString.equals("") ? "NONE" : courseDescString;
 
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(COURSESFILE, true));
-
-			bw.write(courseID + ";" + department + ";" + courseNum + ";" + courseName + ";" + prerequisites + ";"
-					+ antirequisites + ";" + courseDescString + "\n");
-			bw.close();
-		} catch (IOException e) {
-			System.out.println("File can not be opened");
-		}
+		DataModify.insertNewCourse(courseID, department, Integer.valueOf(courseNum), courseName, prerequisites, antirequisites, courseDescString);
 	}
 
 	/**

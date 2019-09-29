@@ -1,8 +1,5 @@
 package coursesoftware;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 
 import coursesoftware.database.DataModify;
 import javafx.collections.FXCollections;
