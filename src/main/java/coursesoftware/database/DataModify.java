@@ -2,6 +2,7 @@ package coursesoftware.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import coursesoftware.datatypes.Admin;
 import coursesoftware.datatypes.Course;
 import coursesoftware.datatypes.Department;
@@ -22,9 +23,31 @@ public class DataModify {
         return false;
     }
 
-    public static boolean insertNewDepartment(Department department) {
+    public static boolean insertNewDepartment(String department) {
+        return insertToTable("DEPARTMENTS", new String[] {department});
+    }
 
-        return false;
+    public static boolean insertToTable(String table, String[] values) {
+        StringBuilder query = new StringBuilder("INSERT INTO " + table + " VALUES (");
+        for(int i = 0; i < values.length - 1; i++) {
+            query.append('\'');
+            query.append(values[i]);
+            query.append("\', ");
+        }
+
+        // append last value to query
+        query.append('\'');
+        query.append(values[values.length - 1] + "\');");
+
+        try {
+            databaseHandler.executeUpdate(query.toString());
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Could not insert values " + Arrays.toString(values) + " into table " + table);
+            ex.printStackTrace();
+            return false;
+        }
+
     }
 
     public static boolean insertNewProgram(Program program) {
@@ -35,8 +58,36 @@ public class DataModify {
         return false;
     }
 
+    public static boolean checkElementExists(String table, String colName, String value) {
+        int count = 0;
+        ResultSet rs = null;
+
+        try {
+            rs = databaseHandler.executeQuery("SELECT * FROM " + table + " WHERE " + colName + " = \'" + value + "\';");
+
+            while (rs.next()) {
+                count++;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return count > 0;
+    }
+
     public static boolean checkDepartmentExists(String departmentName) {
-        return false;
+        return checkElementExists("DEPARTMENTS", "NAME", departmentName);
+    }
+
+    public static boolean removeFromTable(String table, String colName, String value) {
+        try {
+            databaseHandler.executeUpdate("DELETE FROM " + table+ " WHERE " + colName + " = \'" + value + "\';");
+            return true;
+        }  catch (SQLException ex) {
+            System.out.println("Could not remove " + value + " from " + table);
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean checkProgramExists(String programName) {
@@ -47,8 +98,8 @@ public class DataModify {
         return false;
     }
 
-    public static boolean removeDepartment(Department department) {
-        return false;
+    public static boolean removeDepartment(String department) {
+        return removeFromTable("DEPARTMENTS", "NAME", department);
     }
 
     public static boolean removeProgram(Program program) {
@@ -140,14 +191,7 @@ public class DataModify {
      * @param username user to remove
      */
     public static boolean removeUser(String username) {
-        try {
-            databaseHandler.executeUpdate("DELETE FROM USERS WHERE id = \'" + username + "\';");
-            return true;
-        }  catch (SQLException ex) {
-            System.out.println("Could not remove user " + username);
-            ex.printStackTrace();
-            return false;
-        }
+        return removeFromTable("USERS", "id", username);
     }
 
     /**
@@ -155,20 +199,7 @@ public class DataModify {
      * @param username user to remove
      */
     public static boolean userExists(String username) {
-        int count = 0;
-        ResultSet rs = null;
-
-        try {
-            rs = databaseHandler.executeQuery("SELECT * FROM USERS WHERE id = \'" + username + "\';");
-
-            while (rs.next()) {
-                count++;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return count > 0;
+        return checkElementExists("USERS", "id", username);
     }
 
 
@@ -190,4 +221,26 @@ public class DataModify {
             return false;
         }
     }
+
+    /**
+     * Get a list of the departments
+     * @return a list of departments
+     */
+    public static ObservableList<Department> getDepartments() {
+        ResultSet rs = null;
+        ObservableList<Department> departmentList = FXCollections.observableArrayList();
+
+        try {
+            rs = databaseHandler.executeQuery("SELECT * FROM DEPARTMENTS;");
+
+            while (rs.next()) {
+                departmentList.add(new Department(rs.getString(1)));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return departmentList;
+    }
+
 }

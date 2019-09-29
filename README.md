@@ -1,7 +1,7 @@
 # course-management-software
 ![Course Magement Software Demo](demo/demo.gif)  
 
-This is a JavaFX application for managing courses, departments, majors, and concentrations for a university. This repository contains sample data for testing this application.
+This is a JavaFX application for managing courses, departments, majors, and concentrations for a university. This repository has a database backup containing sample data for testing this application.
 
 The administrator view will allow the user to modify the content, which will allow them to add new Courses, Programs, Departments as well as modify existing ones. The student view will allow the user to view the courses in each of the departments and programs. They can view the prerequisites, antirequisites, and descriptions for any courses they are interested in.  
 
@@ -24,12 +24,12 @@ password: student
 
 
 **Start the Database**  
-Docker can be used to run a PostgreSQL within a container. To start the postgres server run the following commands:
+Docker can be used to run a PostgreSQL within a container. To start the postgres server run the following commands from the root of the project directory:
 ```bash
 docker build -t postgresql .
 docker run --rm -p 5432:5432 --name pg postgresql
 ```
-This will create a docker image with the name postgresql from the Dockerfile in the root of the project directory and then run the image while mapping the hosts port 5432 to the containers port 5432 (postgres).
+This will create a docker image with the name postgresql from the Dockerfile and then run the image while mapping the hosts port 5432 to the containers port 5432 (postgres).
 
 ## Create a backup of the existing database  
 On the host machine run the following command in the base project directory to create a database dump which will be in the file database_backup.sql

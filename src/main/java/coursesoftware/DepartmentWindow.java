@@ -3,21 +3,17 @@ package coursesoftware;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Optional;
-import javafx.collections.FXCollections;
+import coursesoftware.database.DataModify;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import coursesoftware.datatypes.Department;
 
 public class DepartmentWindow extends BaseWindow {
 	private TableView<Department> departmentTable = new TableView<>();
@@ -51,19 +47,7 @@ public class DepartmentWindow extends BaseWindow {
 		department.setMinWidth(415);
 		departmentTable.getColumns().add(department);
 
-		ObservableList<Department> list = FXCollections.observableArrayList();
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTLIST)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				list.add(new Department(line));
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+		ObservableList<Department> list = DataModify.getDepartments();
 
 		departmentTable.setItems(list);
 	}
@@ -146,39 +130,24 @@ public class DepartmentWindow extends BaseWindow {
 	 * @param newDeptName
 	 */
 	private void validateDept(String newDeptName) {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTLIST)));
+		DataModify.checkDepartmentExists(newDeptName);
 
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (line.equals(newDeptName)) {
-					br.close();
-					// Display error message
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Could not add department");
-					alert.setHeaderText("Make sure that the department name is unique");
-					alert.setContentText("Please enter department name and try again");
+		if (DataModify.checkDepartmentExists(newDeptName)) {
+			// Display error message
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Could not add department");
+			alert.setHeaderText("Make sure that the department name is unique");
+			alert.setContentText("Please enter department name and try again");
 
-					alert.showAndWait();
-					return;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
+			alert.showAndWait();
+			return;
 		}
+
 		addDepartment(newDeptName);
 	}
 
 	private void addDepartment(String deptID) {
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(DEPARTMENTLIST, true));
-
-			bw.write(deptID + "\n");
-			bw.close();
-		} catch (IOException e) {
-			System.out.println("File can not be opened");
-		}
+		DataModify.insertNewDepartment(deptID);
 		initTable();
 	}
 
@@ -210,41 +179,12 @@ public class DepartmentWindow extends BaseWindow {
 	}
 
 	/**
-	 * This method will remove the department with the specified name from the file
+	 * This method will remove the department with the specified name from the database
 	 * 
 	 * @param deptID name of department to remove
 	 */
 	private void removeDept(String deptID) {
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTLIST)));
-			
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-			while ((line = br.readLine()) != null) {
-				if (!line.equals(deptID)) {
-					addToFile.add(line + "\n");
-				}
-			}
-			br.close();
-			fw = new FileWriter(DEPARTMENTLIST);
-			bw = new BufferedWriter(fw);
-			System.out.println(addToFile.size());
-
-			for (String s : addToFile) {
-				System.out.println(s);
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			System.out.println(e);
-			// File not found
-		}
-
-		File file = new File(DEPARTMENTDIR + deptID + ".txt");
-		file.delete();
-
+		DataModify.removeDepartment(deptID);
 		initTable();
 	}
 
