@@ -1,10 +1,7 @@
 package coursesoftware;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-
+import coursesoftware.database.DataModify;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
@@ -69,27 +66,13 @@ public class BaseCourseWindow extends BaseWindow {
 			return false;
 		}
 
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(COURSESFILE)));
 
-			String line;
-			// Parsing the course file data to check if courses are the same.
-			while ((line = br.readLine()) != null) {
-				String[] course = line.split(";");
-				coursesToCheck.remove(course[0]);
-				if (course[0].equals(courseID) && !editCourse) {
-					System.out.println(course[0]);
-					br.close();
-					alert.setHeaderText("Make sure that the Course ID is unique");
-					alert.setContentText("Please enter a new Course ID and try again");
-
-					alert.showAndWait();
-					return false;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			System.out.println("File not found");
+		if (DataModify.checkCourseExists(courseID)&& !editCourse) {
+			System.out.println(courseID);
+			alert.setHeaderText("Make sure that the Course ID is unique");
+			alert.setContentText("Please enter a new Course ID and try again");
+			alert.showAndWait();
+			return false;
 		}
 
 		// Make sure that the requisites are valid

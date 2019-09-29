@@ -2,6 +2,8 @@ package coursesoftware;
 
 import java.io.*;
 import java.util.Optional;
+
+import coursesoftware.database.DataModify;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -88,20 +90,7 @@ public class AddDeptWindow extends BaseWindow {
 	 * @return boolean return true if not a duplicate department
 	 */
 	private boolean notDuplicateDep() {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DEPARTMENTLIST)));
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (line.equals(deptField.getText())) {
-					br.close();
-					return false;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
-		return true;
+		return DataModify.checkDepartmentExists(deptField.getText());
 	}
 
 	/**
@@ -109,13 +98,6 @@ public class AddDeptWindow extends BaseWindow {
 	 */
 	private void addDepartment() {
 		String deptID = deptField.getText();
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(DEPARTMENTLIST, true));
-
-			bw.write(deptID + "\n");
-			bw.close();
-		} catch (IOException e) {
-			System.out.println("File can not be opened");
-		}
+		DataModify.insertNewDepartment(deptID);
 	}
 }

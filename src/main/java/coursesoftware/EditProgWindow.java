@@ -1,9 +1,9 @@
 package coursesoftware;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Optional;
-import javafx.collections.FXCollections;
+
+import coursesoftware.database.DataModify;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -80,20 +80,7 @@ public class EditProgWindow extends BaseWindow {
 		column.setMinWidth(405);
 		currentProgramTable.getColumns().add(column);
 
-		ObservableList<Program> list = FXCollections.observableArrayList();
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMDIR + thisProg + ".txt")));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				Program progObj = new Program(line);
-				System.out.println(progObj.getProgID());
-				list.add(progObj);
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+		ObservableList<Program> list = DataModify.getPrograms();
 
 		currentProgramTable.setItems(list);
 	}
@@ -159,29 +146,7 @@ public class EditProgWindow extends BaseWindow {
 	 * @param courseID ID of the course that should be removed
 	 */
 	private void removeCourse(String courseID) {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMDIR + thisProg + ".txt")));
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-
-			while ((line = br.readLine()) != null) {
-				if (!line.equals(courseID)) {
-					addToFile.add(line + "\n");
-				}
-			}
-			br.close();
-
-			BufferedWriter bw = new BufferedWriter(new FileWriter(PROGRAMDIR + thisProg + ".txt"));
-
-			for (String s : addToFile) {
-				System.out.println(s);
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// File not found
-		}
+		// TODO: Implement removal of courses from program, i.e. remove from the list of courses in the database
 
 		initTable();
 	}

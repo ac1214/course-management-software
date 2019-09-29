@@ -17,8 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import coursesoftware.datatypes.Program;
 
-import javax.xml.crypto.Data;
-
 public class EditDeptWindow extends BaseWindow {
 	Button finishBtn = new Button("Finish");
 	Button removeBtn = new Button("Remove Program");
@@ -180,7 +178,6 @@ public class EditDeptWindow extends BaseWindow {
 	 * @param progID The name of the program that should be removed
 	 */
 	private void removeProg(String progID) {
-		//removeFromProgFile(progID);
 		DataModify.removeProgram(progID);
 		initTable();
 	}

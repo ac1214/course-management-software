@@ -1,13 +1,10 @@
 package coursesoftware;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+
+import coursesoftware.database.DataModify;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import coursesoftware.datatypes.Course;
 
 public class CourseWindow extends BaseWindow {
 	private TableView<Course> courseTable = new TableView<>();
@@ -75,23 +73,7 @@ public class CourseWindow extends BaseWindow {
 	 * JavaFX window.
 	 */
 	private void addTableData() {
-		ObservableList<Course> list = FXCollections.observableArrayList();
-		File file = new File(COURSESFILE);
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] course = line.split(";");
-				System.out.println(Arrays.toString(course));
-				Course courseObj = new Course(course);
-				list.add(courseObj);
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
-
+		ObservableList<Course> list = DataModify.getCourses();
 		courseTable.setItems(list);
 	}
 
@@ -201,35 +183,12 @@ public class CourseWindow extends BaseWindow {
 	}
 
 	/**
-	 * This method will remove a course from the course file and the table.
+	 * This method will remove a course from the database.
 	 *
 	 * @param courseID The ID of the course that should be removed.
 	 */
 	private void removeCourse(String courseID) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(COURSESFILE));
-			String line;
-			ArrayList<String> addToFile = new ArrayList<>();
-
-			while ((line = br.readLine()) != null) {
-				String[] course = line.split(";");
-				if (!course[0].equals(courseID)) {
-					addToFile.add(String.join(";", course) + "\n");
-				}
-			}
-			br.close();
-
-			BufferedWriter bw = new BufferedWriter(new FileWriter(COURSESFILE));
-
-			for (String s : addToFile) {
-				System.out.println(s);
-				bw.write(s);
-			}
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// File not found
-		}
+		DataModify.removeCourse(courseID);
 
 		addTableData();
 	}

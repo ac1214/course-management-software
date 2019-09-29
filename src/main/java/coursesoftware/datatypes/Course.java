@@ -8,6 +8,12 @@ public class Course {
 	private String prerequisites;
 	private String antirequisites;
 
+	public String getDescription() {
+		return description;
+	}
+
+	private String description;
+
 	/**
 	 * Constructor for course object that will be used to display all of a courses
 	 * attributes in a table
@@ -31,6 +37,16 @@ public class Course {
 			antirequisites = courseInfo[5];
 
 		}
+	}
+
+	public Course(String courseID, String deptID, int courseNum, String courseName, String prerequisites, String antirequisites, String description) {
+		this.courseID = courseID;
+		this.courseDep = deptID;
+		this.courseNum = courseNum + "";
+		this.courseName = courseName;
+		this.prerequisites = prerequisites;
+		this.antirequisites = antirequisites;
+		this.description = description;
 	}
 
 	public Course(String courseID) {

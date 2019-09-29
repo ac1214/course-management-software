@@ -1,8 +1,6 @@
 package coursesoftware;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import javafx.collections.FXCollections;
+import coursesoftware.database.DataModify;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,19 +45,7 @@ public class StudentViewWindow extends BaseWindow {
 		program.setMinWidth(405);
 		programTable.getColumns().add(program);
 
-		ObservableList<Program> list = FXCollections.observableArrayList();
-
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMLIST)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				list.add(new Program(line));
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
+		ObservableList<Program> list = DataModify.getPrograms();
 
 		programTable.setItems(list);
 	}
