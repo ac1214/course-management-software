@@ -178,6 +178,7 @@ public class EditDeptWindow extends BaseWindow {
 	 * @param progID The name of the program that should be removed
 	 */
 	private void removeProg(String progID) {
+
 		DataModify.removeProgram(progID);
 		initTable();
 	}
