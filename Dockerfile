@@ -12,10 +12,13 @@ RUN apt-get install -y software-properties-common postgresql-11 postgresql-clien
  
 USER postgres
 
-RUN    /etc/init.d/postgresql start &&\
+RUN /etc/init.d/postgresql start &&\
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
     createdb -O docker docker
 
+# Add postgres database backup and container start script
+ADD database/database_backup.sql database_backup.sql
+ADD start.sh /
 
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/11/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
@@ -23,4 +26,4 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
 # Expose the PostgreSQL port
 EXPOSE 5432
 
-CMD ["/usr/lib/postgresql/11/bin/postgres", "-D", "/var/lib/postgresql/11/main", "-c", "config_file=/etc/postgresql/11/main/postgresql.conf"]
+CMD ["/start.sh"]

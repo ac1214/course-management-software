@@ -13,7 +13,6 @@ To run this project, input the following command while in the project directory.
 
 Alternatively this project can be imported into IntelliJ to  build and run.
 
-
 **Default Credentials**  
 For the administrator user:  
 username: admin  
@@ -22,6 +21,22 @@ password: admin
 For the student user:  
 username: student  
 password: student
+
+
+**Start the Database**  
+Docker can be used to run a PostgreSQL within a container. To start the postgres server run the following commands:
+```bash
+docker build -t postgresql .
+docker run --rm -p 5432:5432 --name pg postgresql
+```
+This will create a docker image with the name postgresql from the Dockerfile in the root of the project directory and then run the image while mapping the hosts port 5432 to the containers port 5432 (postgres).
+
+## Create a backup of the existing database  
+On the host machine run the following command in the base project directory to create a database dump which will be in the file database_backup.sql
+
+    pg_dump -h localhost -p 5432 -U docker -f database/database_backup.sql
+
+
 
 ## Credits  
 **Icons**  
