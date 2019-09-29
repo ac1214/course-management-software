@@ -1,6 +1,6 @@
 package coursesoftware;
 
-public class Department {
+public class DepartmentOld {
 	private String deptID;
 
 	/**
@@ -8,7 +8,7 @@ public class Department {
 	 * 
 	 * @param departmentName department name to assign to object
 	 */
-	public Department(String departmentName) {
+	public DepartmentOld(String departmentName) {
 		this.deptID = departmentName;
 	}
 

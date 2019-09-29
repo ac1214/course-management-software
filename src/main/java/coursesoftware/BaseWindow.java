@@ -14,8 +14,6 @@ public abstract class BaseWindow extends Application {
 	protected final String DEPARTMENTLIST = BASEDIRECTORY + "departmentList.txt";
 	protected final String COURSESFILE = BASEDIRECTORY + "Courses.txt";
 	protected final String PROGRAMLIST = BASEDIRECTORY + "programList.txt";
-	protected final String ADMINFILE = BASEDIRECTORY + "adminusers.txt";
-	protected final String STUDENTFILE = BASEDIRECTORY + "studentusers.txt";
 	protected final String DEPARTMENTDIR = BASEDIRECTORY + "/Departments/";
 	protected final String PROGRAMDIR = BASEDIRECTORY + "/Programs/";
 
