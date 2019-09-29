@@ -47,11 +47,17 @@ public class DataModify {
             ex.printStackTrace();
             return false;
         }
-
     }
 
-    public static boolean insertNewProgram(Program program) {
-        return false;
+    public static boolean insertNewProgram(String programName, String departmentName) {
+        try {
+            databaseHandler.executeUpdate("INSERT INTO PROGRAMS (program_name, department_id) VALUES (\'" + programName + "\', \'" + departmentName + "\');");
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Could not insert program " + programName);
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean checkCourseExists(String courseName) {
@@ -91,7 +97,7 @@ public class DataModify {
     }
 
     public static boolean checkProgramExists(String programName) {
-        return false;
+        return checkElementExists("PROGRAMS", "program_name", programName);
     }
 
     public static boolean removeCourse(Course course) {
@@ -102,8 +108,8 @@ public class DataModify {
         return removeFromTable("DEPARTMENTS", "NAME", department);
     }
 
-    public static boolean removeProgram(Program program) {
-        return false;
+    public static boolean removeProgram(String programName) {
+        return removeFromTable("PROGRAMS", "program_name", programName);
     }
 
     /**
@@ -243,4 +249,24 @@ public class DataModify {
         return departmentList;
     }
 
+    /**
+     * Get a list of  programs
+     * @return a list of programs
+     */
+    public static ObservableList<Program> getPrograms() {
+        ResultSet rs = null;
+        ObservableList<Program> programList = FXCollections.observableArrayList();
+
+        try {
+            rs = databaseHandler.executeQuery("SELECT * FROM PROGRAMS;");
+
+            while (rs.next()) {
+                programList.add(new Program(rs.getString(3)));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return programList;
+    }
 }

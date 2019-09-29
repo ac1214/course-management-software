@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
+import coursesoftware.database.DataModify;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import coursesoftware.datatypes.Program;
 
 public class ProgramWindow extends BaseWindow {
 	private TableView<Program> programTable = new TableView<>();
@@ -48,19 +50,8 @@ public class ProgramWindow extends BaseWindow {
 		program.setMinWidth(400);
 		programTable.getColumns().add(program);
 
-		ObservableList<Program> list = FXCollections.observableArrayList();
+		ObservableList<Program> list = DataModify.getPrograms();
 
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(PROGRAMLIST)));
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				list.add(new Program(line));
-			}
-			br.close();
-		} catch (Exception e) {
-			// File not found
-		}
 
 		programTable.setItems(list);
 	}
