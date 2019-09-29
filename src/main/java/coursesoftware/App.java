@@ -1,5 +1,6 @@
 package coursesoftware;
 
+import coursesoftware.validation.Password;
 import javafx.application.Application;
 
 public class App {

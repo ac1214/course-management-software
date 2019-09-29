@@ -4,6 +4,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import coursesoftware.database.DataModify;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -14,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 
+import javax.xml.crypto.Data;
+
 public class AddUserWindow extends BaseWindow {
 	private TextField usernameField = new TextField();
 	private PasswordField pwField = new PasswordField();
@@ -22,7 +26,7 @@ public class AddUserWindow extends BaseWindow {
 
 	/**
 	 * Set window parameters. Initialize scene with grid elements
-	 * 
+	 *
 	 */
 	public AddUserWindow() {
 		this.windowHeight = 500;
@@ -35,7 +39,7 @@ public class AddUserWindow extends BaseWindow {
 
 	/**
 	 * Initializes elements that will be on the GridPane
-	 * 
+	 *
 	 * @param grid GridPane object to add to
 	 */
 	private void initPage(GridPane grid) {
@@ -55,30 +59,23 @@ public class AddUserWindow extends BaseWindow {
 	/**
 	 * Parses user name text field and compares it to other user names in the admin
 	 * file.
-	 * 
-	 * @param userName username entered into the textfield
+	 *
+	 * @param username username entered into the textfield
 	 * @return true if the username is valid. False otherwise.
 	 */
-	protected boolean validateUser(String userName) {
+	protected boolean validateUser(String username) {
 		Alert alert = new Alert(AlertType.ERROR);
 
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(ADMINFILE)));
+			boolean userExists = DataModify.userExists(username);
 
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] user = line.split(";");
-				String username = user[0];
-				if (username.equals(userName)) {
-					br.close();
-					alert.setHeaderText("Make sure that the Username is unique");
-					alert.setContentText("Please enter a new Username and try again");
+			if (userExists) {
+				alert.setContentText("Please enter a new unique username and try again");
 
-					alert.showAndWait();
-					return false;
-				}
+				alert.showAndWait();
+				return false;
 			}
-			br.close();
+
 		} catch (Exception e) {
 			// File not found
 		}
@@ -109,9 +106,16 @@ public class AddUserWindow extends BaseWindow {
 					alert.showAndWait();
 				} else {
 					if (validateUser(usernameField.getText())) {
-						saveUser();
-						EditAdminWindow editAdminWindow = new EditAdminWindow();
-						openWindow(editAdminWindow, finishBtn);
+						if(pwField.getText().length() >= 5) {
+							saveUser();
+							EditAdminWindow editAdminWindow = new EditAdminWindow();
+							openWindow(editAdminWindow, finishBtn);
+						} else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Password is too short");
+							alert.setHeaderText("The password you have entered\nis too short, please choose a password \nlonger than 5 characters");
+							alert.showAndWait();
+						}
 					}
 				}
 			}
@@ -119,46 +123,14 @@ public class AddUserWindow extends BaseWindow {
 	}
 
 	/**
-	 * This function is from https://www.baeldung.com/sha-256-hashing-java
-	 * 
-	 * @param arr Array of bytes that contain the hash
-	 * @return String value of the hashed password
-	 */
-	private String bytesToHex(byte[] arr) {
-		StringBuffer hexString = new StringBuffer();
-		for (int i = 0; i < arr.length; i++) {
-			String hex = Integer.toHexString(0xff & arr[i]);
-			if (hex.length() == 1)
-				hexString.append('0');
-			hexString.append(hex);
-		}
-		return hexString.toString();
-	}
-
-	/**
 	 * Parses the textfield containing the entered password and user name. Hashes
 	 * the password according to the SHA-256 specification. Writes new the user name
-	 * and password to the admin file.
+	 * and password to the database.
 	 */
 	private void saveUser() {
-		MessageDigest md = null;
 		String password = pwField.getText();
+		String username = usernameField.getText();
 
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		byte[] hashBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-		String pwHash = bytesToHex(hashBytes);
-
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(ADMINFILE, true));
-
-			bw.write(usernameField.getText() + ";" + pwHash + "\n");
-			bw.close();
-		} catch (IOException e) {
-			System.out.println("File can not be opened");
-		}
+		DataModify.addUser(username, password, true);
 	}
 }
