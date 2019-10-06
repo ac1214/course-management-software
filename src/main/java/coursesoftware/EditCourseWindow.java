@@ -80,8 +80,7 @@ public class EditCourseWindow extends BaseCourseWindow {
 		if (!antirequisites.equals("")) {
 			courses.addAll(new ArrayList<>(Arrays.asList(antirequisites.split(","))));
 		}
-		if (validateCourses(courseID, courseNumNameLabel.getText(), courses, true)) {
-		} else {
+		if (!validateCourses(courseID, courseNumNameLabel.getText(), courses, true)) {
 			return false;
 		}
 

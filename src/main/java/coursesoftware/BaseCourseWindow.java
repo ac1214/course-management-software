@@ -81,12 +81,16 @@ public class BaseCourseWindow extends BaseWindow {
 		} else {
 			for (String s : coursesToCheck) {
 				System.out.println("Course: \"" + s + "\"");
-			}
-			alert.setHeaderText("Make sure that the pre/anitrequisites are valid courses");
-			alert.setContentText("Please enter pre/anitrequisites seperated by commas and try again");
+				if(!DataModify.checkCourseExists(s)) {
+					alert.setHeaderText("Make sure that the pre/anitrequisites are valid courses");
+					alert.setContentText("Please enter pre/anitrequisites seperated by commas and try again");
+					alert.showAndWait();
 
-			alert.showAndWait();
-			return false;
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 }

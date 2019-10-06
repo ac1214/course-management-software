@@ -69,7 +69,7 @@ public class DataModify {
     }
 
     public static boolean checkCourseExists(String courseName) {
-        return false;
+        return checkElementExists("COURSES", "COURSE_ID", courseName);
     }
 
     public static boolean checkElementExists(String table, String colName, String value) {
