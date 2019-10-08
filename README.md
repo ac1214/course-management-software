@@ -38,7 +38,7 @@ On the host machine run the following command in the base project directory to c
 
     pg_dump -h localhost -p 5432 -U docker -f database/database_backup.sql
 
-
+*Note this will overwrite the current backup in the `database` directory*  
 
 ## Credits  
 **Icons**  
