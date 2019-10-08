@@ -31,7 +31,7 @@ docker run --rm -p 5432:5432 --name pg postgresql
 ```
 This will create a docker image with the name postgresql from the Dockerfile and then run the image while mapping the hosts port 5432 to the containers port 5432 (postgres).
 
-To access the running database from the host the following command can be used `psql -h localhost -d docker -U docker`.
+To access the running database from the host the following command can be used `psql -h localhost -d docker -U docker`, the password when connecting will be `docker`.
 
 ## Create a backup of the existing database  
 On the host machine run the following command in the base project directory to create a database dump which will be in the file database_backup.sql
