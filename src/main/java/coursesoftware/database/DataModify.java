@@ -1,9 +1,5 @@
 package coursesoftware.database;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import coursesoftware.datatypes.Admin;
 import coursesoftware.datatypes.Course;
 import coursesoftware.datatypes.Department;
@@ -11,6 +7,10 @@ import coursesoftware.datatypes.Program;
 import coursesoftware.validation.Password;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataModify {
     private static DatabaseHandler databaseHandler = null;
@@ -30,6 +30,7 @@ public class DataModify {
 
         try {
             databaseHandler.executeUpdate("INSERT INTO COURSES VALUES (\'" + courseID + "\', \'" + department + "\', " + courseNum + ", \'" + courseName + "\', \'" + courseDescString +"\');");
+
             return true;
         } catch (SQLException ex) {
             System.out.println("Could not insert course " + courseID);
@@ -76,12 +77,12 @@ public class DataModify {
     }
 
     public static boolean insertNewDepartment(String department) {
-        return insertToTable("DEPARTMENTS", new String[] {department});
+        return insertToTable("DEPARTMENTS", new String[]{department});
     }
 
     public static boolean insertToTable(String table, String[] values) {
         StringBuilder query = new StringBuilder("INSERT INTO " + table + " VALUES (");
-        for(int i = 0; i < values.length - 1; i++) {
+        for (int i = 0; i < values.length - 1; i++) {
             query.append('\'');
             query.append(values[i]);
             query.append("\', ");
@@ -139,9 +140,9 @@ public class DataModify {
 
     public static boolean removeFromTable(String table, String colName, String value) {
         try {
-            databaseHandler.executeUpdate("DELETE FROM " + table+ " WHERE " + colName + " = \'" + value + "\';");
+            databaseHandler.executeUpdate("DELETE FROM " + table + " WHERE " + colName + " = \'" + value + "\';");
             return true;
-        }  catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Could not remove " + value + " from " + table);
             ex.printStackTrace();
             return false;
@@ -166,6 +167,7 @@ public class DataModify {
 
     /**
      * Get a list of the admin users
+     *
      * @return a list of admin users
      */
     public static ObservableList<Admin> getAdminUsers() {
@@ -187,6 +189,7 @@ public class DataModify {
 
     /**
      * This method will validate a login attempt with the existing login ids
+     *
      * @param username username that was input into the input field
      * @param password password that was input into the password field
      * @return 1 if admin, 2 if student, -1 if invalid login
@@ -210,14 +213,14 @@ public class DataModify {
         }
 
         // Check if user was in the database
-        if(salt == null || hash == null) {
+        if (salt == null || hash == null) {
             return -1;
         }
 
         String toCheckHash = Password.getHash(password, salt);
 
         // Check if the stored hash is equal to the input password's hash
-        if(hash.equals(toCheckHash)) {
+        if (hash.equals(toCheckHash)) {
             return isAdmin ? 1 : 2;
         } else {
             return -1;
@@ -226,6 +229,7 @@ public class DataModify {
 
     /**
      * This method will add a new user
+     *
      * @param username username that was input into the input field
      * @param password password that was input into the password field
      * @return boolean value of whether user was successfully added to database
@@ -246,6 +250,7 @@ public class DataModify {
 
     /**
      * This method will remove the user with the specified username
+     *
      * @param username user to remove
      */
     public static boolean removeUser(String username) {
@@ -254,6 +259,7 @@ public class DataModify {
 
     /**
      * This method will check if the specified user exists
+     *
      * @param username user to remove
      */
     public static boolean userExists(String username) {
@@ -263,7 +269,8 @@ public class DataModify {
 
     /**
      * This method will update a user with a new password
-     * @param username username for password change
+     *
+     * @param username    username for password change
      * @param newPassword password to change to
      */
     public static boolean changePassword(String username, String newPassword) {
@@ -273,7 +280,7 @@ public class DataModify {
 
             databaseHandler.executeUpdate("UPDATE USERS SET salt = \'" + salt + "\'," + "passwordhash = \'" + hash + "\' WHERE id = \'" + username + "\';");
             return true;
-        }  catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Update password for " + username);
             ex.printStackTrace();
             return false;
@@ -288,7 +295,7 @@ public class DataModify {
         try {
             databaseHandler.executeUpdate("UPDATE COURSES SET description = \'" + courseDescString + "\' WHERE course_id = \'" + courseID + "\';");
             return true;
-        }  catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Failed while updating course: " + courseID);
             ex.printStackTrace();
             return false;
@@ -311,7 +318,7 @@ public class DataModify {
         try {
             databaseHandler.executeUpdate("UPDATE PROGRAMS SET courses = \'" + courses + "\' WHERE program_name = \'" + programName + "\';");
             return true;
-        }  catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Failed while updating program: " + programName);
             ex.printStackTrace();
             return false;
@@ -320,6 +327,7 @@ public class DataModify {
 
     /**
      * Get a list of the departments
+     *
      * @return a list of departments
      */
     public static ObservableList<Department> getDepartments() {
@@ -341,6 +349,7 @@ public class DataModify {
 
     /**
      * Get a list of the departments
+     *
      * @return a list of departments
      */
     public static ArrayList<String> getDepartmentNameList() {
@@ -361,8 +370,8 @@ public class DataModify {
     }
 
     /**
-
      * Get a list of  programs
+     *
      * @return a list of programs
      */
     public static ObservableList<Program> getPrograms() {
@@ -384,6 +393,7 @@ public class DataModify {
 
     /**
      * Get a list of  programs for a specific department
+     *
      * @return a list of programs
      */
     public static ObservableList<Program> getPrograms(String department) {
@@ -406,6 +416,7 @@ public class DataModify {
 
     /**
      * Get a list of  courses
+     *
      * @return a list of courses
      */
     public static ObservableList<Course> getCourses() {
@@ -427,6 +438,7 @@ public class DataModify {
 
     /**
      * Get a course with a specific ID
+     *
      * @return a list of courses
      */
     public static Course getCourse(String courseID) {
@@ -499,7 +511,7 @@ public class DataModify {
 
             while (rs.next()) {
                 String coursesString = rs.getString(4);
-                if(coursesString != null) {
+                if (coursesString != null) {
                     String[] courses = rs.getString(4).split(",");
                     for (String course : courses)
                         courseList.add(course);
