@@ -3,9 +3,9 @@ package coursesoftware.database;
 import java.sql.*;
 
 public class DatabaseHandler {
-    private String databaseURL = "jdbc:postgresql://localhost:5432/docker";
     Connection connection = null;
     Statement statement = null;
+    private String databaseURL = "jdbc:postgresql://localhost:5432/docker";
 
     public DatabaseHandler() {
         try {
