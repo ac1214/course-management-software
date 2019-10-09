@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 11.5 (Ubuntu 11.5-1.pgdg18.04+1)
--- Dumped by pg_dump version 11.5 (Ubuntu 11.5-1.pgdg18.04+1)
+-- Dumped by pg_dump version 11.5 (Ubuntu 11.5-3.pgdg18.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,6 +21,18 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: antirequisites; Type: TABLE; Schema: public; Owner: docker
+--
+
+CREATE TABLE public.antirequisites (
+    course_id character varying(7) NOT NULL,
+    antirequisites_course character varying(7) NOT NULL
+);
+
+
+ALTER TABLE public.antirequisites OWNER TO docker;
+
+--
 -- Name: courses; Type: TABLE; Schema: public; Owner: docker
 --
 
@@ -29,8 +41,6 @@ CREATE TABLE public.courses (
     department_id text NOT NULL,
     course_num integer NOT NULL,
     course_name text NOT NULL,
-    prerequisites text,
-    antirequisites text,
     description text
 );
 
@@ -47,6 +57,18 @@ CREATE TABLE public.departments (
 
 
 ALTER TABLE public.departments OWNER TO docker;
+
+--
+-- Name: prerequisites; Type: TABLE; Schema: public; Owner: docker
+--
+
+CREATE TABLE public.prerequisites (
+    course_id character varying(7) NOT NULL,
+    prerequisites_course character varying(7) NOT NULL
+);
+
+
+ALTER TABLE public.prerequisites OWNER TO docker;
 
 --
 -- Name: programs; Type: TABLE; Schema: public; Owner: docker
@@ -106,17 +128,25 @@ ALTER TABLE ONLY public.programs ALTER COLUMN program_id SET DEFAULT nextval('pu
 
 
 --
+-- Data for Name: antirequisites; Type: TABLE DATA; Schema: public; Owner: docker
+--
+
+COPY public.antirequisites (course_id, antirequisites_course) FROM stdin;
+\.
+
+
+--
 -- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: docker
 --
 
-COPY public.courses (course_id, department_id, course_num, course_name, prerequisites, antirequisites, description) FROM stdin;
-CPSC231	Computing	231	Intro to Computing I			
-CPSC233	Computing	233	Intro to Computing II			
-CPSC235	Computing	235	Advanced Intro to Computing			
-HTST200	Arts	200	Events and Ideas that Shook the World			
-HTST201	Arts	201	The History of Europe			
-HTST202	Arts	202	An Introduction to Military History			
-HTST300	Arts	300	The Practice of History			Provides a grounding in the methods and practice of history.
+COPY public.courses (course_id, department_id, course_num, course_name, description) FROM stdin;
+CPSC233	Computing	233	Intro to Computing II	
+CPSC235	Computing	235	Advanced Intro to Computing	
+HTST200	Arts	200	Events and Ideas that Shook the World	
+HTST201	Arts	201	The History of Europe	
+HTST300	Arts	300	The Practice of History	Provides a grounding in the methods and practice of history.
+CPSC231	Computing	231	Intro to Computing I	
+HTST202	Arts	202	An Introduction to Military History	
 \.
 
 
@@ -129,6 +159,17 @@ Arts
 Business
 Computing
 Engineering
+\.
+
+
+--
+-- Data for Name: prerequisites; Type: TABLE DATA; Schema: public; Owner: docker
+--
+
+COPY public.prerequisites (course_id, prerequisites_course) FROM stdin;
+CPSC231	CPSC233
+HTST202	HTST200
+HTST202	HTST201
 \.
 
 
@@ -178,6 +219,14 @@ SELECT pg_catalog.setval('public.programs_program_id_seq', 24, true);
 
 
 --
+-- Name: antirequisites antirequisites_pkey; Type: CONSTRAINT; Schema: public; Owner: docker
+--
+
+ALTER TABLE ONLY public.antirequisites
+    ADD CONSTRAINT antirequisites_pkey PRIMARY KEY (course_id, antirequisites_course);
+
+
+--
 -- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: docker
 --
 
@@ -191,6 +240,14 @@ ALTER TABLE ONLY public.courses
 
 ALTER TABLE ONLY public.departments
     ADD CONSTRAINT departments_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: prerequisites prerequisites_pkey; Type: CONSTRAINT; Schema: public; Owner: docker
+--
+
+ALTER TABLE ONLY public.prerequisites
+    ADD CONSTRAINT prerequisites_pkey PRIMARY KEY (course_id, prerequisites_course);
 
 
 --
@@ -210,11 +267,43 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: antirequisites antirequisites_antirequisites_course_fkey; Type: FK CONSTRAINT; Schema: public; Owner: docker
+--
+
+ALTER TABLE ONLY public.antirequisites
+    ADD CONSTRAINT antirequisites_antirequisites_course_fkey FOREIGN KEY (antirequisites_course) REFERENCES public.courses(course_id) ON DELETE CASCADE;
+
+
+--
+-- Name: antirequisites antirequisites_course_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: docker
+--
+
+ALTER TABLE ONLY public.antirequisites
+    ADD CONSTRAINT antirequisites_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.courses(course_id) ON DELETE CASCADE;
+
+
+--
 -- Name: courses courses_department_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: docker
 --
 
 ALTER TABLE ONLY public.courses
     ADD CONSTRAINT courses_department_id_fkey FOREIGN KEY (department_id) REFERENCES public.departments(name) ON DELETE CASCADE;
+
+
+--
+-- Name: prerequisites prerequisites_course_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: docker
+--
+
+ALTER TABLE ONLY public.prerequisites
+    ADD CONSTRAINT prerequisites_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.courses(course_id) ON DELETE CASCADE;
+
+
+--
+-- Name: prerequisites prerequisites_prerequisites_course_fkey; Type: FK CONSTRAINT; Schema: public; Owner: docker
+--
+
+ALTER TABLE ONLY public.prerequisites
+    ADD CONSTRAINT prerequisites_prerequisites_course_fkey FOREIGN KEY (prerequisites_course) REFERENCES public.courses(course_id) ON DELETE CASCADE;
 
 
 --
