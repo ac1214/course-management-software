@@ -79,4 +79,21 @@ public class Course {
     public String getAntirequisites() {
         return antirequisites;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        Course compare = (Course) o;
+
+        return courseID.equals(compare.getCourseID())  &&
+                courseDep.equals(compare.getCourseDep()) &&
+                courseNum.equals(compare.getCourseNum()) &&
+                courseName.equals(compare.getCourseName()) &&
+                prerequisites.equals(compare.getPrerequisites()) &&
+                antirequisites.equals(compare.getAntirequisites()) &&
+                description.equals(compare.getDescription());
+    }
 }

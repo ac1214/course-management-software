@@ -39,6 +39,9 @@ public class DataModify {
         }
     }
 
+    public static boolean insertNewCourse(Course course) {
+        return insertNewCourse(course.getCourseID(), course.getCourseDep(), Integer.valueOf(course.getCourseNum()), course.getCourseName(), course.getPrerequisites(), course.getAntirequisites(), course.getDescription());
+    }
 
     public static boolean addPrerequisites(String courseID, String prerequisites) {
         if(prerequisites.equals(""))
