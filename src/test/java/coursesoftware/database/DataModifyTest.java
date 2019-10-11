@@ -1,5 +1,6 @@
 package coursesoftware.database;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import coursesoftware.datatypes.Course;
@@ -14,7 +15,7 @@ public class DataModifyTest {
         DataModify.insertNewProgram("TESTPROG", "TESTDEPT");
     }
 
-    @Before
+    @After
     public void removeSetupForTests() {
         // Remove program and department that was inserted for test
         DataModify.removeProgram("TESTPROG");

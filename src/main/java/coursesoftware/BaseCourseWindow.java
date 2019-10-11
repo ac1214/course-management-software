@@ -47,7 +47,7 @@ public class BaseCourseWindow extends BaseWindow {
      * @param editCourse     check if the course is editable
      * @return boolean
      */
-    protected boolean validateCourses(String courseID, String courseNum, ArrayList<String> coursesToCheck,
+    protected static boolean validateCourses(String courseID, String courseNum, ArrayList<String> coursesToCheck,
                                       boolean editCourse) {
         String alertTitle = "";
         if (editCourse) {
@@ -62,9 +62,13 @@ public class BaseCourseWindow extends BaseWindow {
             return false;
         }
 
-
-        if (DataModify.checkCourseExists(courseID) && !editCourse) {
-            AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the Course ID is unique", "Please enter a new Course ID and try again");
+        if(courseID.length() == 7) {
+            if (DataModify.checkCourseExists(courseID) && !editCourse) {
+                AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the Course ID is unique", "Please enter a new Course ID and try again");
+                return false;
+            }
+        } else {
+            AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the CourseID is a valid", "Please enter a new CourseID and try again");
             return false;
         }
 

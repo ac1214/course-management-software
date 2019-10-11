@@ -1,6 +1,7 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.datatypes.Course;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -61,49 +62,85 @@ public class AddCourseWindow extends BaseCourseWindow {
      * @return boolean return true if successfully saved a course. False otherwise
      */
     private boolean saveCourse() {
+        // Get the course that is input
+        Course inputCourse = getCourseFromInput();
+
+        // Required fields of the input contain empty elements
+        if(inputCourse == null)
+            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");;
+
+        // Check if the input course is valid
+        if(validateCourse(inputCourse)) {
+            // Get the course from the input since it is valid
+            // and insert the new course to the database
+            DataModify.insertNewCourse(inputCourse);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * This method will validate inputs from the text fields in the windows and make sure text has actually been input
+     * in the fields
+     * @return boolean value of whether the input is a valid course or not
+     */
+    public static boolean validateCourse(Course course) {
+        String courseID = course.getCourseID();
+        String department = course.getCourseDep();
+        String courseNum = course.getCourseNum();
+        String courseName = course.getCourseName();
+        String prerequisites = course.getPrerequisites();
+        String antirequisites = course.getAntirequisites();
+
+        ArrayList<String> preAndAntirequisites = getPreAndAntiRequsites(prerequisites, antirequisites);
+
+        if (validateCourses(courseID, courseNum, preAndAntirequisites, false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This method will get a list of pre and antirequisites when given a string of pre and antirequisites
+     * @param prerequisites string of prerequisites
+     * @param antirequisites string of antirequisites
+     * @return list of courses that were in the pre and antirequisites
+     */
+    private static ArrayList<String> getPreAndAntiRequsites(String prerequisites, String antirequisites) {
+        ArrayList<String> courses = new ArrayList<>();
+
+        if (!prerequisites.equals("")) {
+            courses.addAll(new ArrayList<>(Arrays.asList(prerequisites.split(","))));
+        }
+        if (!antirequisites.equals("")) {
+            courses.addAll(new ArrayList<>(Arrays.asList(antirequisites.split(","))));
+        }
+
+        return courses;
+    }
+
+    /**
+     * This method will get the input courses from the text fields in the window
+     * @return A course iff it is in a valid format
+     */
+    private Course getCourseFromInput() {
         String courseID = courseIDField.getText();
         String department = departmentSelection.getValue();
         String courseNum = courseNumField.getText();
         String courseName = courseNameField.getText();
         String prerequisites = prerequisitesField.getText();
         String antirequisites = antirequisitesField.getText();
-        String courseDescString = String.join("NEWLINE", Arrays.asList(courseDesc.getText().split("\n")));
+        String courseDescString = courseDesc.getText();
 
+        // Ensure all of the required fields are filled in
         if (!courseID.equals("") && !(department == null) && !courseNum.equals("") && !courseName.equals("")) {
-            ArrayList<String> courses = new ArrayList<>();
-            if (!prerequisites.equals("")) {
-                courses.addAll(new ArrayList<>(Arrays.asList(prerequisites.split(","))));
-            }
-            if (!antirequisites.equals("")) {
-                courses.addAll(new ArrayList<>(Arrays.asList(antirequisites.split(","))));
-            }
-            if (validateCourses(courseID, courseNum, courses, false)) {
-                writeCourse(courseID, department, courseNum, courseName, prerequisites, antirequisites,
-                        courseDescString);
-                return true;
-            } else {
-                return false;
-            }
+            return new Course(courseID, department, courseNum, courseName, prerequisites, antirequisites, courseDescString);
         } else {
-            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");
+            return null;
         }
-    }
-
-    /**
-     * Writes the course passed in from saveCourse and writes it to the course file.
-     *
-     * @param courseID         Course ID from text field
-     * @param department       department from text field
-     * @param courseNum        Course number from text field
-     * @param courseName       Course name from text field
-     * @param prerequisites    Course prerequisites from text field
-     * @param antirequisites   Course antirequisites from text field
-     * @param courseDescString Course description from text field
-     */
-    private void writeCourse(String courseID, String department, String courseNum, String courseName,
-                             String prerequisites, String antirequisites, String courseDescString) {
-
-        DataModify.insertNewCourse(courseID, department, Integer.valueOf(courseNum), courseName, prerequisites, antirequisites, courseDescString);
     }
 
     /**

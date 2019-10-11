@@ -44,6 +44,16 @@ public class Course {
         this.description = description;
     }
 
+    public Course(String courseID, String deptID, String courseNum, String courseName, String prerequisites, String antirequisites, String description) {
+        this.courseID = courseID;
+        this.courseDep = deptID;
+        this.courseNum = courseNum;
+        this.courseName = courseName;
+        this.prerequisites = prerequisites;
+        this.antirequisites = antirequisites;
+        this.description = description;
+    }
+
     public Course(String courseID) {
         this.courseID = courseID;
     }
