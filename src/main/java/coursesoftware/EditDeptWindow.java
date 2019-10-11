@@ -2,12 +2,12 @@ package coursesoftware;
 
 import coursesoftware.database.DataModify;
 import coursesoftware.datatypes.Program;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
@@ -149,22 +149,12 @@ public class EditDeptWindow extends BaseWindow {
         if (currentDepartmentTable.getSelectionModel().getSelectedItem() != null) {
             Program selectedProgram = currentDepartmentTable.getSelectionModel().getSelectedItem();
             String progID = selectedProgram.getProgID();
-            Alert removeCourseAlert = new Alert(AlertType.CONFIRMATION);
-            removeCourseAlert.setTitle("Remove Program");
-            removeCourseAlert.setHeaderText("The department \"" + progID + "\" will be removed");
-            removeCourseAlert.setContentText("Would you like to continue?");
 
-            Optional<ButtonType> result = removeCourseAlert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
+            if (AlertWindow.displayConfirmationWindowWithMessage("Remove Program", "The department \"" + progID + "\" will be removed", "Would you like to continue?")) {
                 removeProg(progID);
             }
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Select a program");
-            alert.setContentText("Please select a program that\n you would like to remove");
-
-            alert.showAndWait();
+            AlertWindow.displayErrorWindow("Select a program", "Please select a program that\n you would like to remove");
         }
     }
 

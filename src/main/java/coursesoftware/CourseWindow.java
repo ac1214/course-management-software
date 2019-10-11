@@ -2,16 +2,14 @@ package coursesoftware;
 
 import coursesoftware.database.DataModify;
 import coursesoftware.datatypes.Course;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-
-import java.util.Optional;
 
 public class CourseWindow extends BaseWindow {
     private TableView<Course> courseTable = new TableView<>();
@@ -122,11 +120,7 @@ public class CourseWindow extends BaseWindow {
                     EditCourseWindow editCourseWindow = new EditCourseWindow(courseID);
                     openWindow(editCourseWindow, addCourseBtn);
                 } else {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Select a Course");
-                    alert.setContentText("Please select a course that you would like to edit");
-
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindow("Select a Course", "Please select a course that you would like to edit");
                 }
 
             }
@@ -156,22 +150,11 @@ public class CourseWindow extends BaseWindow {
         if (courseTable.getSelectionModel().getSelectedItem() != null) {
             Course selectedcourse = courseTable.getSelectionModel().getSelectedItem();
             String courseID = selectedcourse.getCourseID();
-            Alert removeCourseAlert = new Alert(AlertType.CONFIRMATION);
-            removeCourseAlert.setTitle("Remove Course");
-            removeCourseAlert.setHeaderText("The course \"" + courseID + "\" will be removed");
-            removeCourseAlert.setContentText("Would you like to continue?");
-
-            Optional<ButtonType> result = removeCourseAlert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
+            if (AlertWindow.displayConfirmationWindowWithMessage("Remove Course", "The course \"" + courseID + "\" will be removed","Would you like to continue?" )) {
                 removeCourse(courseID);
             }
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Select a Course");
-            alert.setContentText("Please select a course that\n you would like to remove");
-
-            alert.showAndWait();
+            AlertWindow.displayErrorWindow("Select a Course", "Please select a course that\n you would like to remove");
         }
     }
 

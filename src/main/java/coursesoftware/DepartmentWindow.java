@@ -2,13 +2,13 @@ package coursesoftware;
 
 import coursesoftware.database.DataModify;
 import coursesoftware.datatypes.Department;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
@@ -72,11 +72,7 @@ public class DepartmentWindow extends BaseWindow {
                     EditDeptWindow editDeptWindow = new EditDeptWindow(deptID);
                     openWindow(editDeptWindow, editDeptBtn);
                 } else {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Select a Deparment");
-                    alert.setContentText("Please select a department that\nyou would like to edit");
-
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindow("Select a Deparment", "Please select a department that\nyou would like to edit");
                 }
             }
         });
@@ -112,12 +108,7 @@ public class DepartmentWindow extends BaseWindow {
             if (!result.get().equals("")) {
                 validateDept(result.get());
             } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Could not add department");
-                alert.setHeaderText("Incomplete Form");
-                alert.setContentText("Department field can not be blank\nPlease enter department name and try again");
-
-                alert.showAndWait();
+                AlertWindow.displayErrorWindowWithMessage("Could not add department", "Incomplete Form", "Department field can not be blank\nPlease enter department name and try again");
             }
         }
     }
@@ -133,12 +124,8 @@ public class DepartmentWindow extends BaseWindow {
 
         if (DataModify.checkDepartmentExists(newDeptName)) {
             // Display error message
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Could not add department");
-            alert.setHeaderText("Make sure that the department name is unique");
-            alert.setContentText("Please enter department name and try again");
+            AlertWindow.displayErrorWindowWithMessage("Could not add department", "Make sure that the department name is unique", "Please enter department name and try again");
 
-            alert.showAndWait();
             return;
         }
 
@@ -158,22 +145,12 @@ public class DepartmentWindow extends BaseWindow {
         if (departmentTable.getSelectionModel().getSelectedItem() != null) {
             Department selectedDept = departmentTable.getSelectionModel().getSelectedItem();
             String deptID = selectedDept.getDeptID();
-            Alert removeCourseAlert = new Alert(AlertType.CONFIRMATION);
-            removeCourseAlert.setTitle("Remove Department");
-            removeCourseAlert.setHeaderText("The department \"" + deptID + "\" will be removed");
-            removeCourseAlert.setContentText("Would you like to continue?");
 
-            Optional<ButtonType> result = removeCourseAlert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
+            if (AlertWindow.displayConfirmationWindowWithMessage("Remove Department", "The department \"" + deptID + "\" will be removed", "Would you like to continue?")) {
                 removeDept(deptID);
             }
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Select a Department");
-            alert.setContentText("Please select a department that\nyou would like to remove");
-
-            alert.showAndWait();
+            AlertWindow.displayErrorWindow("Select a Department", "Please select a department that\nyou would like to remove");
         }
     }
 

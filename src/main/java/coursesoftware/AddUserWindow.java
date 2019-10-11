@@ -1,10 +1,10 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 
 public class AddUserWindow extends BaseWindow {
@@ -52,15 +52,13 @@ public class AddUserWindow extends BaseWindow {
      * @return true if the username is valid. False otherwise.
      */
     protected boolean validateUser(String username) {
-        Alert alert = new Alert(AlertType.ERROR);
 
         try {
             boolean userExists = DataModify.userExists(username);
 
             if (userExists) {
-                alert.setContentText("Please enter a new unique username and try again");
+                AlertWindow.displayErrorWindowWithMessage("", "", "Please enter a new unique username and try again");
 
-                alert.showAndWait();
                 return false;
             }
 
@@ -81,17 +79,11 @@ public class AddUserWindow extends BaseWindow {
             public void handle(ActionEvent event) {
                 if (pwField.getText().equals("") || usernameField.getText().equals("")
                         || pwConfirmField.getText().equals("")) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Empty Fields");
-                    alert.setHeaderText("The fields cannot be empty");
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindow("Empty Fields", "The fields cannot be empty");
                 } else if (!pwField.getText().equals(pwConfirmField.getText())) {
                     System.out.println(pwField.getText());
                     System.out.println(pwConfirmField.getText());
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Passwords do not match");
-                    alert.setHeaderText("The password you have entered\ndo not match");
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindow("Passwords do not match", "The password you have entered\ndo not match");
                 } else {
                     if (validateUser(usernameField.getText())) {
                         if (pwField.getText().length() >= 5) {
@@ -99,10 +91,7 @@ public class AddUserWindow extends BaseWindow {
                             EditAdminWindow editAdminWindow = new EditAdminWindow();
                             openWindow(editAdminWindow, finishBtn);
                         } else {
-                            Alert alert = new Alert(AlertType.ERROR);
-                            alert.setTitle("Password is too short");
-                            alert.setHeaderText("The password you have entered\nis too short, please choose a password \nlonger than 5 characters");
-                            alert.showAndWait();
+                            AlertWindow.displayErrorWindow("Password is too short", "The password you have entered\nis too short, please choose a password \nlonger than 5 characters");
                         }
                     }
                 }

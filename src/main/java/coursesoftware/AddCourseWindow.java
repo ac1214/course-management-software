@@ -1,15 +1,14 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 
 public class AddCourseWindow extends BaseCourseWindow {
     Button finishBtn = new Button("Finish");
@@ -86,14 +85,7 @@ public class AddCourseWindow extends BaseCourseWindow {
                 return false;
             }
         } else {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Error in adding course");
-            alert.setHeaderText("Incomplete Form");
-            alert.setContentText(
-                    "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            return result.get() == ButtonType.OK;
+            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");
         }
     }
 

@@ -1,13 +1,11 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-
-import java.util.Optional;
 
 public class AddProgWindow extends BaseWindow {
     Button finishBtn = new Button("Finish");
@@ -52,13 +50,7 @@ public class AddProgWindow extends BaseWindow {
                     ProgramWindow progWindow = new ProgramWindow();
                     openWindow(progWindow, finishBtn);
                 } else {
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Blank Field");
-                    alert.setHeaderText("Incomplete Form");
-                    alert.setContentText("Program field\ncan not be left blank \nThis Program will not be saved");
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK) {
+                    if (AlertWindow.displayConfirmationWindowWithMessage("Blank Field", "Incomplete Form", "Program field\ncan not be left blank \nThis Program will not be saved")) {
                         ProgramWindow progWindow = new ProgramWindow();
                         openWindow(progWindow, finishBtn);
                     }

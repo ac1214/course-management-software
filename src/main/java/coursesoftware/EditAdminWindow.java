@@ -2,16 +2,14 @@ package coursesoftware;
 
 import coursesoftware.database.DataModify;
 import coursesoftware.datatypes.Admin;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-
-import java.util.Optional;
 
 public class EditAdminWindow extends BaseWindow {
     private Button finishBtn = new Button("Finish");
@@ -123,30 +121,16 @@ public class EditAdminWindow extends BaseWindow {
      */
     private void removeUserPrompt() {
         if (adminTable.getItems().size() == 1) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Cannot remove user");
-            alert.setContentText("There must be at least one administrator,\nthis user cannot be removed");
-
-            alert.showAndWait();
+            AlertWindow.displayErrorWindow("Cannot remove user", "There must be at least one administrator,\nthis user cannot be removed");
         } else if (adminTable.getSelectionModel().getSelectedItem() != null) {
             Admin selectedUser = adminTable.getSelectionModel().getSelectedItem();
             String username = selectedUser.getUsername();
-            Alert removeUserAlert = new Alert(AlertType.CONFIRMATION);
-            removeUserAlert.setTitle("Remove User");
-            removeUserAlert.setHeaderText("The user \"" + username + "\" will be removed");
-            removeUserAlert.setContentText("Would you like to continue?");
 
-            Optional<ButtonType> result = removeUserAlert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
+            if (AlertWindow.displayConfirmationWindowWithMessage("Remove User", "The user \"" + username + "\" will be removed", "Would you like to continue?")) {
                 removeUser(username);
             }
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Select a User");
-            alert.setContentText("Please select a user that\nyou would like to remove");
-
-            alert.showAndWait();
+            AlertWindow.displayErrorWindow("Select a User", "Please select a user that\nyou would like to remove");
         }
 
     }

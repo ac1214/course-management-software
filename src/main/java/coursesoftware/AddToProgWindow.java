@@ -1,15 +1,13 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-
-import java.util.Optional;
 
 public class AddToProgWindow extends BaseWindow {
     Button finishBtn = new Button("Finish");
@@ -67,12 +65,7 @@ public class AddToProgWindow extends BaseWindow {
                     EditProgWindow editProgWindow = new EditProgWindow(thisProg);
                     openWindow(editProgWindow, finishBtn);
                 } else {
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Adding courses");
-                    alert.setHeaderText("Would you like to add the selcted courses to\nthe " + thisProg + " program?");
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK) {
+                    if (AlertWindow.displayConfirmationWindow("Adding courses", "Would you like to add the selcted courses to\nthe " + thisProg + " program?")) {
                         addCoursesToFile();
                     }
                     EditProgWindow editProgWindow = new EditProgWindow(thisProg);

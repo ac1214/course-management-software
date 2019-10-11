@@ -2,13 +2,12 @@ package coursesoftware;
 
 import coursesoftware.database.DataModify;
 import coursesoftware.datatypes.Program;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -64,11 +63,7 @@ public class StudentViewWindow extends BaseWindow {
                     ViewProgramWindow viewProgramWindow = new ViewProgramWindow(progID);
                     openWindow(viewProgramWindow, viewProgBtn);
                 } else {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Select a Program");
-                    alert.setContentText("Please select a Program that\nyou would like to view");
-
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindow("Select a Program", "Please select a Program that\nyou would like to view");
                 }
             }
         });

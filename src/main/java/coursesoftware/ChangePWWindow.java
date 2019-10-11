@@ -1,13 +1,11 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-
-import java.util.Optional;
 
 public class ChangePWWindow extends BaseWindow {
     String username;
@@ -60,41 +58,22 @@ public class ChangePWWindow extends BaseWindow {
             @Override
             public void handle(ActionEvent event) {
                 if (oldPWField.getText().equals("")) {
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Password Field is Blank");
-                    alert.setHeaderText("Incomplete Form");
-                    alert.setContentText("Password field can not be blank,\nthese changes will not be saved");
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK) {
+                    if (AlertWindow.displayConfirmationWindowWithMessage("Password Field is Blank", "Incomplete Form", "Password field can not be blank,\nthese changes will not be saved")) {
                         EditAdminWindow editAdminWindow = new EditAdminWindow();
                         openWindow(editAdminWindow, finishBtn);
                     }
                 } else if (!pwField.getText().equals(pwConfirmField.getText())) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Passwords do not match");
-                    alert.setHeaderText("The passwords you have entered do not match");
-                    alert.setContentText("Please enter your new password and try again");
-
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindowWithMessage("Passwords do not match", "The passwords you have entered do not match", "Please enter your new password and try again");
                 } else {
                     if (DataModify.validateUser(username, oldPWField.getText()) == 1) {
                         if (pwField.getText().length() >= 5) {
                             changePassword(pwField.getText());
                             openWindow(new EditAdminWindow(), finishBtn);
                         } else {
-                            Alert alert = new Alert(AlertType.ERROR);
-                            alert.setTitle("Password is too short");
-                            alert.setHeaderText("The new password you have entered\nis too short, please choose a password \nlonger than 5 characters");
-                            alert.showAndWait();
+                            AlertWindow.displayErrorWindow("Password is too short", "The new password you have entered\nis too short, please choose a password \nlonger than 5 characters");
                         }
                     } else {
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Double check old password");
-                        alert.setHeaderText("The old password you have entered is invalid");
-                        alert.setContentText("Please enter your old password and try again");
-
-                        alert.showAndWait();
+                        AlertWindow.displayErrorWindowWithMessage("Double check old password", "The old password you have entered is invalid", "Please enter your old password and try again");
                     }
                 }
             }
