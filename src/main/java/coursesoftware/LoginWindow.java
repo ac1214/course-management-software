@@ -1,11 +1,11 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -136,13 +136,7 @@ public class LoginWindow extends BaseWindow {
      * password is invalid
      */
     private void popupInvalidWarning() {
-        Alert invalidUserPWAlert = new Alert(AlertType.ERROR);
-
-        invalidUserPWAlert.setTitle("Invalid Credentials");
-        invalidUserPWAlert.setHeaderText("Invalid Credentials");
-        invalidUserPWAlert.setContentText("Failed to validate user!");
-
-        invalidUserPWAlert.showAndWait();
+        AlertWindow.displayErrorWindowWithMessage("Invalid Credentials", "Invalid Credentials", "Failed to validate user!");
     }
 
     /**

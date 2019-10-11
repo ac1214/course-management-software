@@ -3,13 +3,12 @@ package coursesoftware;
 
 import coursesoftware.database.DataModify;
 import coursesoftware.datatypes.Program;
+import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,11 +65,7 @@ public class ProgramWindow extends BaseWindow {
                     EditProgWindow editProgWindow = new EditProgWindow(progID);
                     openWindow(editProgWindow, editProgBtn);
                 } else {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Select a Program");
-                    alert.setContentText("Please select a program that\nyou would like to edit");
-
-                    alert.showAndWait();
+                    AlertWindow.displayErrorWindow("Select a Program", "Please select a program that\nyou would like to edit");
                 }
             }
         });

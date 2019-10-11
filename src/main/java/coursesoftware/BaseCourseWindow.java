@@ -1,8 +1,7 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import coursesoftware.windows.AlertWindow;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -50,29 +49,22 @@ public class BaseCourseWindow extends BaseWindow {
      */
     protected boolean validateCourses(String courseID, String courseNum, ArrayList<String> coursesToCheck,
                                       boolean editCourse) {
-        Alert alert = new Alert(AlertType.ERROR);
+        String alertTitle = "";
         if (editCourse) {
-            alert.setTitle("Could not edit course");
+            alertTitle = "Could not edit course";
         } else {
-            alert.setTitle("Could not add course");
+            alertTitle = "Could not add course";
         }
         try {
             Integer.parseInt(courseNum);
         } catch (NumberFormatException e) {
-
-            alert.setHeaderText("Make sure that the Course Number is a valid number");
-            alert.setContentText("Please enter a new Course Number and try again");
-
-            alert.showAndWait();
+            AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the Course Number is a valid number", "Please enter a new Course Number and try again");
             return false;
         }
 
 
         if (DataModify.checkCourseExists(courseID) && !editCourse) {
-            System.out.println(courseID);
-            alert.setHeaderText("Make sure that the Course ID is unique");
-            alert.setContentText("Please enter a new Course ID and try again");
-            alert.showAndWait();
+            AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the Course ID is unique", "Please enter a new Course ID and try again");
             return false;
         }
 
@@ -83,10 +75,7 @@ public class BaseCourseWindow extends BaseWindow {
             for (String s : coursesToCheck) {
                 System.out.println("Course: \"" + s + "\"");
                 if (!DataModify.checkCourseExists(s)) {
-                    alert.setHeaderText("Make sure that the pre/anitrequisites are valid courses");
-                    alert.setContentText("Please enter pre/anitrequisites seperated by commas and try again");
-                    alert.showAndWait();
-
+                    AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the pre/anitrequisites are valid courses", "Please enter pre/anitrequisites seperated by commas and try again");
                     return false;
                 }
             }

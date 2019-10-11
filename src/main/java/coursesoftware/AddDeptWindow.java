@@ -1,13 +1,11 @@
 package coursesoftware;
 
 import coursesoftware.database.DataModify;
+import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-
-import java.util.Optional;
 
 public class AddDeptWindow extends BaseWindow {
     Button finishBtn = new Button("Finish");
@@ -54,21 +52,10 @@ public class AddDeptWindow extends BaseWindow {
                         DepartmentWindow deptWindow = new DepartmentWindow();
                         openWindow(deptWindow, finishBtn);
                     } else {
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Could not add department");
-                        alert.setHeaderText("Make sure that the department name is unique");
-                        alert.setContentText("Please enter department name and try again");
-
-                        alert.showAndWait();
+                        AlertWindow.displayErrorWindowWithMessage("Could not add department", "Make sure that the department name is unique", "Please enter department name and try again");
                     }
                 } else {
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Blank Field");
-                    alert.setHeaderText("Incomplete Form");
-                    alert.setContentText("Department field\ncan not be left blank \nThis department will not be saved");
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK) {
+                    if (AlertWindow.displayConfirmationWindowWithMessage("Blank Field", "Incomplete Form", "Department field\ncan not be left blank \nThis department will not be saved")) {
                         DepartmentWindow deptWindow = new DepartmentWindow();
                         openWindow(deptWindow, finishBtn);
                     }
