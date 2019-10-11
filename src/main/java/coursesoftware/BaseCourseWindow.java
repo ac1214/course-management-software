@@ -47,7 +47,7 @@ public class BaseCourseWindow extends BaseWindow {
      * @param editCourse     check if the course is editable
      * @return boolean
      */
-    protected boolean validateCourses(String courseID, String courseNum, ArrayList<String> coursesToCheck,
+    protected static boolean validateCourses(String courseID, String courseNum, ArrayList<String> coursesToCheck,
                                       boolean editCourse) {
         String alertTitle = "";
         if (editCourse) {

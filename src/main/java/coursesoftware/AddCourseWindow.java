@@ -65,6 +65,10 @@ public class AddCourseWindow extends BaseCourseWindow {
         // Get the course that is input
         Course inputCourse = getCourseFromInput();
 
+        // Required fields of the input contain empty elements
+        if(inputCourse == null)
+            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");;
+
         // Check if the input course is valid
         if(validateCourse(inputCourse)) {
             // Get the course from the input since it is valid
@@ -82,7 +86,7 @@ public class AddCourseWindow extends BaseCourseWindow {
      * in the fields
      * @return boolean value of whether the input is a valid course or not
      */
-    private boolean validateCourse(Course course) {
+    public static boolean validateCourse(Course course) {
         String courseID = course.getCourseID();
         String department = course.getCourseDep();
         String courseNum = course.getCourseNum();
@@ -90,17 +94,12 @@ public class AddCourseWindow extends BaseCourseWindow {
         String prerequisites = course.getPrerequisites();
         String antirequisites = course.getAntirequisites();
 
-        // Ensure all of the fields are filled in
-        if (!courseID.equals("") && !(department == null) && !courseNum.equals("") && !courseName.equals("")) {
-            ArrayList<String> preAndAntirequisites = getPreAndAntiRequsites(prerequisites, antirequisites);
+        ArrayList<String> preAndAntirequisites = getPreAndAntiRequsites(prerequisites, antirequisites);
 
-            if (validateCourses(courseID, courseNum, preAndAntirequisites, false)) {
-                return true;
-            } else {
-                return false;
-            }
+        if (validateCourses(courseID, courseNum, preAndAntirequisites, false)) {
+            return true;
         } else {
-            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");
+            return false;
         }
     }
 
@@ -110,7 +109,7 @@ public class AddCourseWindow extends BaseCourseWindow {
      * @param antirequisites string of antirequisites
      * @return list of courses that were in the pre and antirequisites
      */
-    private ArrayList<String> getPreAndAntiRequsites(String prerequisites, String antirequisites) {
+    private static ArrayList<String> getPreAndAntiRequsites(String prerequisites, String antirequisites) {
         ArrayList<String> courses = new ArrayList<>();
 
         if (!prerequisites.equals("")) {
@@ -136,24 +135,12 @@ public class AddCourseWindow extends BaseCourseWindow {
         String antirequisites = antirequisitesField.getText();
         String courseDescString = courseDesc.getText();
 
-        return new Course(courseID, department, courseNum, courseName, prerequisites, antirequisites, courseDescString);
-    }
-
-    /**
-     * Writes the course passed in from saveCourse and writes it to the course file.
-     *
-     * @param courseID         Course ID from text field
-     * @param department       department from text field
-     * @param courseNum        Course number from text field
-     * @param courseName       Course name from text field
-     * @param prerequisites    Course prerequisites from text field
-     * @param antirequisites   Course antirequisites from text field
-     * @param courseDescString Course description from text field
-     */
-    private void writeCourse(String courseID, String department, String courseNum, String courseName,
-                             String prerequisites, String antirequisites, String courseDescString) {
-
-        DataModify.insertNewCourse(courseID, department, Integer.valueOf(courseNum), courseName, prerequisites, antirequisites, courseDescString);
+        // Ensure all of the required fields are filled in
+        if (!courseID.equals("") && !(department == null) && !courseNum.equals("") && !courseName.equals("")) {
+            return new Course(courseID, department, courseNum, courseName, prerequisites, antirequisites, courseDescString);
+        } else {
+            return null;
+        }
     }
 
     /**
