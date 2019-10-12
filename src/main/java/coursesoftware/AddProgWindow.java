@@ -15,8 +15,6 @@ public class AddProgWindow extends BaseWindow {
      * Set window parameters. Initialize scene with grid elements
      */
     public AddProgWindow() {
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Add Program";
 
         this.grid = new GridPane();

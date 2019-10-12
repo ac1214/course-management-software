@@ -23,8 +23,6 @@ public class StudentViewWindow extends BaseWindow {
      * Constructor that will initialize the properties of the page
      */
     public StudentViewWindow() {
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Programs";
 
         this.grid = new GridPane();

@@ -19,8 +19,6 @@ public class AddToProgWindow extends BaseWindow {
      */
     public AddToProgWindow(String progName) {
         thisProg = progName;
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Add course to Program";
 
         this.grid = new GridPane();

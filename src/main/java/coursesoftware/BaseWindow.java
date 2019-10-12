@@ -10,8 +10,6 @@ import javafx.stage.Stage;
 
 public abstract class BaseWindow extends Application {
     protected String windowTitle;
-    protected int windowWidth;
-    protected int windowHeight;
     protected GridPane grid;
 
     /**
@@ -42,14 +40,6 @@ public abstract class BaseWindow extends Application {
 
     public void setWindowTitle(String newWindowTitle) {
         this.windowTitle = newWindowTitle;
-    }
-
-    public void setWindowHeight(int newHeight) {
-        this.windowHeight = newHeight;
-    }
-
-    public void setWindowWidth(int newWidth) {
-        this.windowWidth = newWidth;
     }
 
     /**

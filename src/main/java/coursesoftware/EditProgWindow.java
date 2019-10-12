@@ -25,8 +25,6 @@ public class EditProgWindow extends BaseWindow {
      */
     public EditProgWindow(String progName) {
         thisProg = progName;
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Edit Programs";
 
         this.grid = new GridPane();

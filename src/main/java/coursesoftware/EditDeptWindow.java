@@ -26,8 +26,6 @@ public class EditDeptWindow extends BaseWindow {
      */
     public EditDeptWindow(String deptName) {
         thisDept = deptName;
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Edit Department";
 
         this.grid = new GridPane();

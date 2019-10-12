@@ -15,8 +15,6 @@ public class AddDeptWindow extends BaseWindow {
      * Set window parameters. Initialize scene with grid elements
      */
     public AddDeptWindow() {
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Add department";
 
         this.grid = new GridPane();

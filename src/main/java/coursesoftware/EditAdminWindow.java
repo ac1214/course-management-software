@@ -22,8 +22,6 @@ public class EditAdminWindow extends BaseWindow {
      * Constructor that will initialize the properties of the page
      */
     public EditAdminWindow() {
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Edit Administrators";
 
         this.grid = new GridPane();

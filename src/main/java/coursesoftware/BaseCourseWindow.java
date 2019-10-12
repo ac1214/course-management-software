@@ -32,9 +32,6 @@ public class BaseCourseWindow extends BaseWindow {
         this.grid.add(prerequisitesLabel, 0, 5);
         this.grid.add(antirequisitesLabel, 0, 6);
         this.grid.add(courseDescriptionLabel, 0, 7);
-
-        this.windowHeight = 500;
-        this.windowWidth = 500;
     }
 
     /**

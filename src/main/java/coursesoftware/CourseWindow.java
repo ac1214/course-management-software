@@ -22,8 +22,6 @@ public class CourseWindow extends BaseWindow {
      * Constructor that will initialize the properties of the page
      */
     public CourseWindow() {
-        this.windowHeight = 600;
-        this.windowWidth = 1000;
         this.windowTitle = "Courses";
 
         this.grid = new GridPane();

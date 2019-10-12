@@ -25,8 +25,6 @@ public class DepartmentWindow extends BaseWindow {
      * Constructor that will initialize the properties of the page
      */
     public DepartmentWindow() {
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Departments";
 
         this.grid = new GridPane();

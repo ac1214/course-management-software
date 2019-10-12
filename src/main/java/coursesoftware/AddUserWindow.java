@@ -17,8 +17,6 @@ public class AddUserWindow extends BaseWindow {
      * Set window parameters. Initialize scene with grid elements
      */
     public AddUserWindow() {
-        this.windowHeight = 500;
-        this.windowWidth = 500;
         this.windowTitle = "Add Admin User";
 
         this.grid = new GridPane();
