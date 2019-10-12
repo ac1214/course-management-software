@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyDepartmentData;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -69,7 +69,7 @@ public class AddDeptWindow extends BaseWindow {
      * @return boolean return true if not a duplicate department
      */
     private boolean notDuplicateDep() {
-        return DataModify.checkDepartmentExists(deptField.getText());
+        return ModifyDepartmentData.checkDepartmentExists(deptField.getText());
     }
 
     /**
@@ -77,6 +77,6 @@ public class AddDeptWindow extends BaseWindow {
      */
     private void addDepartment() {
         String deptID = deptField.getText();
-        DataModify.insertNewDepartment(deptID);
+        ModifyDepartmentData.insertNewDepartment(deptID);
     }
 }

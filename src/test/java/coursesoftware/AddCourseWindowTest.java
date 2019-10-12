@@ -1,6 +1,7 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
+import coursesoftware.database.ModifyDepartmentData;
 import coursesoftware.datatypes.Course;
 import org.junit.After;
 import org.junit.Before;
@@ -12,20 +13,20 @@ public class AddCourseWindowTest {
     @Before
     public void setupForTests() {
         // Setup test department, and courses
-        DataModify.insertNewDepartment("TESTDEPT");
+        ModifyDepartmentData.insertNewDepartment("TESTDEPT");
         Course testPrereq = new Course("PRER123", "TESTDEPT", "123", "Test prerequisite", "", "", "");
         Course testAntireq = new Course("ANTI123", "TESTDEPT", "123", "Test antirequisite", "", "", "");
 
-        DataModify.insertNewCourse(testPrereq);
-        DataModify.insertNewCourse(testAntireq);
+        ModifyCourseData.insertNewCourse(testPrereq);
+        ModifyCourseData.insertNewCourse(testAntireq);
     }
 
     @After
     public void removeSetupForTests() {
         // Remove courses and department that was inserted for test
-        DataModify.removeCourse("PRER123");
-        DataModify.removeCourse("ANTI123");
-        DataModify.removeDepartment("TESTDEPT");
+        ModifyCourseData.removeCourse("PRER123");
+        ModifyCourseData.removeCourse("ANTI123");
+        ModifyDepartmentData.removeDepartment("TESTDEPT");
     }
 
     @Test

@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
 import coursesoftware.windows.AlertWindow;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -60,7 +60,7 @@ public class BaseCourseWindow extends BaseWindow {
         }
 
         if(courseID.length() == 7) {
-            if (DataModify.checkCourseExists(courseID) && !editCourse) {
+            if (ModifyCourseData.checkCourseExists(courseID) && !editCourse) {
                 AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the Course ID is unique", "Please enter a new Course ID and try again");
                 return false;
             }
@@ -75,7 +75,7 @@ public class BaseCourseWindow extends BaseWindow {
         } else {
             for (String s : coursesToCheck) {
                 System.out.println("Course: \"" + s + "\"");
-                if (!DataModify.checkCourseExists(s)) {
+                if (!ModifyCourseData.checkCourseExists(s)) {
                     AlertWindow.displayErrorWindowWithMessage(alertTitle, "Make sure that the pre/anitrequisites are valid courses", "Please enter pre/anitrequisites seperated by commas and try again");
                     return false;
                 }

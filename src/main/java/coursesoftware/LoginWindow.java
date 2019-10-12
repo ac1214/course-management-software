@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyUserData;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -148,7 +148,7 @@ public class LoginWindow extends BaseWindow {
      * @return Boolean value of whether the user was successfully validated
      */
     public boolean verifyUser(String username, String password) {
-        int result = DataModify.validateUser(username, password);
+        int result = ModifyUserData.validateUser(username, password);
 
         if (result == 1) {
             studentflag = false;

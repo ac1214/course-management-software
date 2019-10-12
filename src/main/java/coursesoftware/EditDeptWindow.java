@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyProgramData;
 import coursesoftware.datatypes.Program;
 import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
@@ -73,7 +73,7 @@ public class EditDeptWindow extends BaseWindow {
         column.setMinWidth(405);
         currentDepartmentTable.getColumns().add(column);
 
-        ObservableList<Program> list = DataModify.getPrograms();
+        ObservableList<Program> list = ModifyProgramData.getPrograms();
 
         currentDepartmentTable.setItems(list);
     }
@@ -122,7 +122,7 @@ public class EditDeptWindow extends BaseWindow {
     }
 
     private void addProgToFile(String programName) {
-        DataModify.insertNewProgram(programName, thisDept);
+        ModifyProgramData.insertNewProgram(programName, thisDept);
 
         initTable();
     }
@@ -135,7 +135,7 @@ public class EditDeptWindow extends BaseWindow {
      *                    the file
      */
     private void validateProg(String newProgName) {
-        DataModify.checkProgramExists(newProgName);
+        ModifyProgramData.checkProgramExists(newProgName);
         addProgToFile(newProgName);
     }
 
@@ -163,7 +163,7 @@ public class EditDeptWindow extends BaseWindow {
      */
     private void removeProg(String progID) {
 
-        DataModify.removeProgram(progID);
+        ModifyProgramData.removeProgram(progID);
         initTable();
     }
 }

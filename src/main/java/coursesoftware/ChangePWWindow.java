@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyUserData;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -65,7 +65,7 @@ public class ChangePWWindow extends BaseWindow {
                 } else if (!pwField.getText().equals(pwConfirmField.getText())) {
                     AlertWindow.displayErrorWindowWithMessage("Passwords do not match", "The passwords you have entered do not match", "Please enter your new password and try again");
                 } else {
-                    if (DataModify.validateUser(username, oldPWField.getText()) == 1) {
+                    if (ModifyUserData.validateUser(username, oldPWField.getText()) == 1) {
                         if (pwField.getText().length() >= 5) {
                             changePassword(pwField.getText());
                             openWindow(new EditAdminWindow(), finishBtn);
@@ -86,6 +86,6 @@ public class ChangePWWindow extends BaseWindow {
      * @param newPassword This is the new password to set the users password to
      */
     private void changePassword(String newPassword) {
-        DataModify.changePassword(username, newPassword);
+        ModifyUserData.changePassword(username, newPassword);
     }
 }
