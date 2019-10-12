@@ -45,7 +45,7 @@ public class AddDeptWindow extends BaseWindow {
             @Override
             public void handle(ActionEvent event) {
                 if (!deptField.getText().equals("")) {
-                    if (notDuplicateDep()) {
+                    if (ModifyDepartmentData.checkDepartmentExists(deptField.getText())) {
                         addDepartment();
                         DepartmentWindow deptWindow = new DepartmentWindow();
                         openWindow(deptWindow, finishBtn);
@@ -61,17 +61,7 @@ public class AddDeptWindow extends BaseWindow {
             }
         });
     }
-
-    /**
-     * Method checks department list to make sure that the new department is not the
-     * same as one that exists.
-     *
-     * @return boolean return true if not a duplicate department
-     */
-    private boolean notDuplicateDep() {
-        return ModifyDepartmentData.checkDepartmentExists(deptField.getText());
-    }
-
+    
     /**
      * Method adds a department to the department list.
      */
