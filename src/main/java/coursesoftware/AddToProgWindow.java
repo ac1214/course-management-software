@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyProgramData;
 import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,7 +45,7 @@ public class AddToProgWindow extends BaseWindow {
      * Initializes the table for adding courses to programs
      */
     private void initTable() {
-        ObservableList<String> list = DataModify.getProgramCourses(thisProg);
+        ObservableList<String> list = ModifyProgramData.getProgramCourses(thisProg);
         courseListView.setItems(list);
 
         courseListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -87,7 +87,7 @@ public class AddToProgWindow extends BaseWindow {
 
         sb.append(list.get(list.size() - 1));
 
-        DataModify.updateProgram(thisProg, sb.toString());
+        ModifyProgramData.updateProgram(thisProg, sb.toString());
 
         initTable();
     }

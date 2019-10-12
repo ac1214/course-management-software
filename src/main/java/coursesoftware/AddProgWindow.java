@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyProgramData;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -62,6 +62,6 @@ public class AddProgWindow extends BaseWindow {
      */
     private void addProgram() {
         String progID = progField.getText();
-        DataModify.insertNewProgram(progID, "");
+        ModifyProgramData.insertNewProgram(progID, "");
     }
 }

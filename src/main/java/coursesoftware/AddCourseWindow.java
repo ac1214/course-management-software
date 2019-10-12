@@ -1,6 +1,7 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
+import coursesoftware.database.ModifyDepartmentData;
 import coursesoftware.datatypes.Course;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
@@ -52,7 +53,7 @@ public class AddCourseWindow extends BaseCourseWindow {
      * form the department list.
      */
     private ArrayList<String> getDepartments() {
-        return DataModify.getDepartmentNameList();
+        return ModifyDepartmentData.getDepartmentNameList();
     }
 
     /**
@@ -73,7 +74,7 @@ public class AddCourseWindow extends BaseCourseWindow {
         if(validateCourse(inputCourse)) {
             // Get the course from the input since it is valid
             // and insert the new course to the database
-            DataModify.insertNewCourse(inputCourse);
+            ModifyCourseData.insertNewCourse(inputCourse);
 
             return true;
         }

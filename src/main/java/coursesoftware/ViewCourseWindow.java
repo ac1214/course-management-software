@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
 import coursesoftware.datatypes.Course;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,7 +59,7 @@ public class ViewCourseWindow extends BaseCourseWindow {
     public void setFields() {
         Course editingCourse = null;
 
-        editingCourse = DataModify.getCourse(courseID);
+        editingCourse = ModifyCourseData.getCourse(courseID);
         String courseDescString = String.join("\n", Arrays.asList(editingCourse.getDescription().split("NEWLINE")));
         courseDescString = courseDescString.equals("NONE") ? "" : courseDescString;
         courseDesc.setText(courseDescString);

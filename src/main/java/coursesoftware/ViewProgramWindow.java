@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
 import coursesoftware.datatypes.Course;
 import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
@@ -66,7 +66,7 @@ public class ViewProgramWindow extends BaseWindow {
         column.setMinWidth(415);
         currentProgramTable.getColumns().add(column);
 
-        ObservableList<Course> list = DataModify.getCourses();
+        ObservableList<Course> list = ModifyCourseData.getCourses();
 
         currentProgramTable.setItems(list);
     }

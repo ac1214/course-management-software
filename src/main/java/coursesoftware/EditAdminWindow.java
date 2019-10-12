@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyUserData;
 import coursesoftware.datatypes.Admin;
 import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
@@ -42,7 +42,7 @@ public class EditAdminWindow extends BaseWindow {
         admins.setMinWidth(405);
         adminTable.getColumns().add(admins);
 
-        ObservableList<Admin> list = DataModify.getAdminUsers();
+        ObservableList<Admin> list = ModifyUserData.getAdminUsers();
 
         adminTable.setItems(list);
     }
@@ -139,7 +139,7 @@ public class EditAdminWindow extends BaseWindow {
      * @param username Username of the user to be removed
      */
     private void removeUser(String username) {
-        DataModify.removeUser(username);
+        ModifyUserData.removeUser(username);
 
         initTable();
     }

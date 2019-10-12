@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyDepartmentData;
 import coursesoftware.datatypes.Department;
 import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
@@ -44,7 +44,7 @@ public class DepartmentWindow extends BaseWindow {
         department.setMinWidth(415);
         departmentTable.getColumns().add(department);
 
-        ObservableList<Department> list = DataModify.getDepartments();
+        ObservableList<Department> list = ModifyDepartmentData.getDepartments();
 
         departmentTable.setItems(list);
     }
@@ -118,9 +118,7 @@ public class DepartmentWindow extends BaseWindow {
      * @param newDeptName
      */
     private void validateDept(String newDeptName) {
-        DataModify.checkDepartmentExists(newDeptName);
-
-        if (DataModify.checkDepartmentExists(newDeptName)) {
+        if (ModifyDepartmentData.checkDepartmentExists(newDeptName)) {
             // Display error message
             AlertWindow.displayErrorWindowWithMessage("Could not add department", "Make sure that the department name is unique", "Please enter department name and try again");
 
@@ -131,7 +129,7 @@ public class DepartmentWindow extends BaseWindow {
     }
 
     private void addDepartment(String deptID) {
-        DataModify.insertNewDepartment(deptID);
+        ModifyDepartmentData.insertNewDepartment(deptID);
         initTable();
     }
 
@@ -158,7 +156,7 @@ public class DepartmentWindow extends BaseWindow {
      * @param deptID name of department to remove
      */
     private void removeDept(String deptID) {
-        DataModify.removeDepartment(deptID);
+        ModifyDepartmentData.removeDepartment(deptID);
         initTable();
     }
 

@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
 import coursesoftware.datatypes.Course;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,7 +51,7 @@ public class EditCourseWindow extends BaseCourseWindow {
     }
 
     public void setFields() {
-        Course editingCourse = DataModify.getCourse(courseID);
+        Course editingCourse = ModifyCourseData.getCourse(courseID);
 
         courseIDNameLabel.setText(editingCourse.getCourseID());
         departmentNameLabel.setText(editingCourse.getCourseDep());
@@ -84,7 +84,7 @@ public class EditCourseWindow extends BaseCourseWindow {
             return false;
         }
 
-        DataModify.updateCourse(courseID, prerequisites, antirequisites, courseDescString);
+        ModifyCourseData.updateCourse(courseID, prerequisites, antirequisites, courseDescString);
 
         return true;
     }

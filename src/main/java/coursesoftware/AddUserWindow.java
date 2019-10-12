@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyUserData;
 import coursesoftware.windows.AlertWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,7 +52,7 @@ public class AddUserWindow extends BaseWindow {
     protected boolean validateUser(String username) {
 
         try {
-            boolean userExists = DataModify.userExists(username);
+            boolean userExists = ModifyUserData.userExists(username);
 
             if (userExists) {
                 AlertWindow.displayErrorWindowWithMessage("", "", "Please enter a new unique username and try again");
@@ -106,6 +106,6 @@ public class AddUserWindow extends BaseWindow {
         String password = pwField.getText();
         String username = usernameField.getText();
 
-        DataModify.addUser(username, password, true);
+        ModifyUserData.addUser(username, password, true);
     }
 }

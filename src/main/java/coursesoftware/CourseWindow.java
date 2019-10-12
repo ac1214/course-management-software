@@ -1,6 +1,6 @@
 package coursesoftware;
 
-import coursesoftware.database.DataModify;
+import coursesoftware.database.ModifyCourseData;
 import coursesoftware.datatypes.Course;
 import coursesoftware.windows.AlertWindow;
 import javafx.collections.ObservableList;
@@ -62,7 +62,7 @@ public class CourseWindow extends BaseWindow {
      * JavaFX window.
      */
     private void addTableData() {
-        ObservableList<Course> list = DataModify.getCourses();
+        ObservableList<Course> list = ModifyCourseData.getCourses();
         courseTable.setItems(list);
     }
 
@@ -162,7 +162,7 @@ public class CourseWindow extends BaseWindow {
      * @param courseID The ID of the course that should be removed.
      */
     private void removeCourse(String courseID) {
-        DataModify.removeCourse(courseID);
+        ModifyCourseData.removeCourse(courseID);
 
         addTableData();
     }
