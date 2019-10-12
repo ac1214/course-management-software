@@ -67,7 +67,7 @@ public class AddCourseWindow extends BaseCourseWindow {
 
         // Required fields of the input contain empty elements
         if(inputCourse == null)
-            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");;
+            return AlertWindow.displayConfirmationWindowWithMessage("Error in adding course", "Incomplete Form", "Course ID, Department, Number, and Name \ncan not be left blank \nThis course will not be saved");
 
         // Check if the input course is valid
         if(validateCourse(inputCourse)) {
