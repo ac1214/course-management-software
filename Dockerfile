@@ -1,5 +1,9 @@
 FROM ubuntu:18.04
 
+# Set timezone within container
+ENV TZ=America/Denver
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Add PostgreSQL Apt Repository
 RUN apt-get update && apt-get install -y wget gnupg &&\
     echo 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' > /etc/apt/sources.list.d/pgdg.list &&\
